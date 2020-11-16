@@ -1,0 +1,40 @@
+<!-- drawable/mask.xml -->
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="10dp"
+    android:height="298dp"
+    android:viewportWidth="375"
+    android:viewportHeight="298" >
+
+    <group>
+        <clip-path android:pathData="M0 0H375V298H0V0Z" />
+
+        <group
+            android:translateX="0.5"
+            android:translateY="0.5"
+            android:pivotX="187.5"
+            android:pivotY="149"
+            android:scaleX="0.843"
+            android:scaleY="0.843"
+            android:rotation="90" >
+
+            <path android:pathData="M0 0V298H375V0">
+                <aapt:attr name="android:fillColor">
+                    <gradient
+                        android:type="linear"
+                        android:startX="93.75"
+                        android:startY="149"
+                        android:endX="281.25"
+                        android:endY="149" >
+                        <item android:color="#00191926" android:offset="0" />
+                        <item android:color="#191926" android:offset="1" />
+                    </gradient>
+                </aapt:attr>
+            </path>
+
+        </group>
+
+    </group>
+
+</vector>
