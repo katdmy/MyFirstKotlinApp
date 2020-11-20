@@ -1,360 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
+    android:fitsSystemWindows="true"
     tools:context=".MovieDetailsActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
-        <ImageView
-            android:id="@+id/orig"
-            android:layout_width="0dp"
-            android:layout_height="298dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/orig"
-            app:layout_constraintDimensionRatio=""
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Mask -->
-        <ImageView
-            android:id="@+id/mask_1"
-            android:layout_width="0dp"
-            android:layout_height="298dp"
-            android:background="@drawable/mask"
-            android:scaleX="1"
-            app:layout_constraintDimensionRatio="375"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="254dp" />
+            android:fitsSystemWindows="true"
+            app:layout_behavior="" >
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="343dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="bottom"
-            android:lineSpacingExtra="-8sp"
-            android:text="@string/name"
-            android:textAppearance="@style/name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guideline" />
+            <ImageView
+                android:id="@+id/orig"
+                android:layout_width="0dp"
+                android:layout_height="298dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/orig"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/pg"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rectangle"
-            app:layout_constraintBottom_toTopOf="@id/guideline"
-            app:layout_constraintStart_toStartOf="parent" />
+            <!-- Mask -->
+            <ImageView
+                android:id="@+id/mask_1"
+                android:layout_width="0dp"
+                android:layout_height="298dp"
+                android:background="@drawable/mask"
+                android:scaleX="1"
+                app:layout_constraintDimensionRatio="375"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/some_id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/some_id"
-            android:textAppearance="@style/some_id"
-            app:layout_constraintBottom_toBottomOf="@id/pg"
-            app:layout_constraintEnd_toEndOf="@id/pg"
-            app:layout_constraintStart_toStartOf="@id/pg"
-            app:layout_constraintTop_toTopOf="@id/pg" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="254dp" />
 
-        <TextView
-            android:id="@+id/tag"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/roboto"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
-            android:text="@string/tag"
-            android:textAppearance="@style/tag"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="343dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="bottom"
+                android:lineSpacingExtra="-8sp"
+                android:text="@string/name"
+                android:textAppearance="@style/name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline" />
 
-        <TextView
-            android:id="@+id/reviews_name"
-            android:layout_width="112dp"
-            android:layout_height="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="103dp"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
-            android:text="@string/reviews_name"
-            android:textAppearance="@style/reviews_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tag" />
+            <ImageView
+                android:id="@+id/pg"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/rectangle"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/star1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_star_icon_filled"
-            android:baselineAlignBottom="true"
-            app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
-            app:layout_constraintEnd_toStartOf="@+id/star2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/some_id"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/some_id"
+                android:textAppearance="@style/some_id"
+                app:layout_constraintBottom_toBottomOf="@id/pg"
+                app:layout_constraintEnd_toEndOf="@id/pg"
+                app:layout_constraintStart_toStartOf="@id/pg"
+                app:layout_constraintTop_toTopOf="@id/pg" />
 
-        <ImageView
-            android:id="@+id/star2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="3.25dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_star_icon_filled"
-            android:baselineAlignBottom="true"
-            app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
-            app:layout_constraintEnd_toStartOf="@+id/star3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/star1" />
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4sp"
+                android:text="@string/tag"
+                android:textAppearance="@style/tag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name" />
 
-        <ImageView
-            android:id="@+id/star3"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="3.25dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_star_icon_filled"
-            android:baselineAlignBottom="true"
-            app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
-            app:layout_constraintEnd_toStartOf="@+id/star4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/star2" />
+            <TextView
+                android:id="@+id/reviews_name"
+                android:layout_width="112dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="103dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4sp"
+                android:text="@string/reviews_name"
+                android:textAppearance="@style/reviews_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tag" />
 
-        <ImageView
-            android:id="@+id/star4"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="3.25dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_star_icon_filled"
-            android:baselineAlignBottom="true"
-            app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
-            app:layout_constraintEnd_toStartOf="@+id/star5"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/star3" />
+            <ImageView
+                android:id="@+id/star1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_star_icon_filled"
+                android:baselineAlignBottom="true"
+                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintEnd_toStartOf="@+id/star2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/star5"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="3.25dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_star_icon"
-            android:baselineAlignBottom="true"
-            app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
-            app:layout_constraintStart_toEndOf="@+id/star4" />
+            <ImageView
+                android:id="@+id/star2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="3.25dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_star_icon_filled"
+                android:baselineAlignBottom="true"
+                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintEnd_toStartOf="@+id/star3"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/star1" />
 
-        <TextView
-            android:id="@+id/storyline_name"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
-            android:text="@string/storyline_name"
-            android:textAppearance="@style/storyline_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reviews_name" />
+            <ImageView
+                android:id="@+id/star3"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="3.25dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_star_icon_filled"
+                android:baselineAlignBottom="true"
+                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintEnd_toStartOf="@+id/star4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/star2" />
 
-        <TextView
-            android:id="@+id/after_the_d"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/roboto_light"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
-            android:text="@string/after_the_d"
-            android:textAppearance="@style/after_the_d"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/storyline_name" />
+            <ImageView
+                android:id="@+id/star4"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="3.25dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_star_icon_filled"
+                android:baselineAlignBottom="true"
+                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintEnd_toStartOf="@+id/star5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/star3" />
 
-        <TextView
-            android:id="@+id/heading"
-            android:layout_width="243dp"
-            android:layout_height="24dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="8sp"
-            android:text="@string/heading"
-            android:textAppearance="@style/heading"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/after_the_d" />
+            <ImageView
+                android:id="@+id/star5"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="3.25dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_star_icon"
+                android:baselineAlignBottom="true"
+                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintStart_toEndOf="@+id/star4" />
 
-        <ImageView
-            android:id="@+id/movie1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/movie1"
-            android:background="@drawable/round_outline"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/movie2"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            <TextView
+                android:id="@+id/storyline_name"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4sp"
+                android:text="@string/storyline_name"
+                android:textAppearance="@style/storyline_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reviews_name" />
 
-        <ImageView
-            android:id="@+id/movie2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/movie2"
-            android:background="@drawable/round_outline"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/movie3"
-            app:layout_constraintStart_toEndOf="@+id/movie1"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            <TextView
+                android:id="@+id/after_the_d"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4sp"
+                android:text="@string/after_the_d"
+                android:textAppearance="@style/after_the_d"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storyline_name" />
 
-        <ImageView
-            android:id="@+id/movie3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/movie3"
-            android:background="@drawable/round_outline"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@id/movie4"
-            app:layout_constraintStart_toEndOf="@id/movie2"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="243dp"
+                android:layout_height="24dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="8sp"
+                android:text="@string/heading"
+                android:textAppearance="@style/heading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/after_the_d" />
 
-        <ImageView
-            android:id="@+id/movie4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/movie4"
-            android:background="@drawable/round_outline"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/movie3"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            <ImageView
+                android:id="@+id/movie1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/movie1"
+                android:background="@drawable/round_outline"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@+id/movie2"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/heading" />
 
-        <TextView
-            android:id="@+id/robert_down"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:lineSpacingExtra="2sp"
-            android:text="@string/robert_down"
-            android:textAppearance="@style/movie"
-            app:layout_constraintStart_toStartOf="@id/movie1"
-            app:layout_constraintEnd_toEndOf="@id/movie1"
-            app:layout_constraintTop_toBottomOf="@id/movie1" />
+            <ImageView
+                android:id="@+id/movie2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/movie2"
+                android:background="@drawable/round_outline"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@+id/movie3"
+                app:layout_constraintStart_toEndOf="@+id/movie1"
+                app:layout_constraintTop_toBottomOf="@+id/heading" />
 
-        <TextView
-            android:id="@+id/chris_evans"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:lineSpacingExtra="2sp"
-            android:text="@string/chris_evans"
-            android:textAppearance="@style/movie"
-            app:layout_constraintStart_toStartOf="@id/movie2"
-            app:layout_constraintEnd_toEndOf="@id/movie2"
-            app:layout_constraintTop_toBottomOf="@id/movie2" />
+            <ImageView
+                android:id="@+id/movie3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/movie3"
+                android:background="@drawable/round_outline"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@id/movie4"
+                app:layout_constraintStart_toEndOf="@id/movie2"
+                app:layout_constraintTop_toBottomOf="@+id/heading" />
 
-        <TextView
-            android:id="@+id/mark_ruffal"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:lineSpacingExtra="2sp"
-            android:text="@string/mark_ruffal"
-            android:textAppearance="@style/movie"
-            app:layout_constraintStart_toStartOf="@id/movie3"
-            app:layout_constraintEnd_toEndOf="@id/movie3"
-            app:layout_constraintTop_toBottomOf="@id/movie3" />
+            <ImageView
+                android:id="@+id/movie4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/movie4"
+                android:background="@drawable/round_outline"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/movie3"
+                app:layout_constraintTop_toBottomOf="@+id/heading" />
 
-        <TextView
-            android:id="@+id/chris_hemsw"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:lineSpacingExtra="2sp"
-            android:text="@string/chris_hemsw"
-            android:textAppearance="@style/movie"
-            app:layout_constraintStart_toStartOf="@id/movie4"
-            app:layout_constraintEnd_toEndOf="@id/movie4"
-            app:layout_constraintTop_toBottomOf="@id/movie4" />
+            <TextView
+                android:id="@+id/robert_down"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_bold"
+                android:lineSpacingExtra="2sp"
+                android:text="@string/robert_down"
+                android:textAppearance="@style/movie"
+                app:layout_constraintStart_toStartOf="@id/movie1"
+                app:layout_constraintEnd_toEndOf="@id/movie1"
+                app:layout_constraintTop_toBottomOf="@id/movie1" />
 
-        <TextView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:layout_marginLeft="32dp"
-            android:fontFamily="@font/roboto_bold"
-            android:lineSpacingExtra="2sp"
-            android:text="@string/back"
-            android:textAppearance="@style/back"
-            android:alpha="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            <TextView
+                android:id="@+id/chris_evans"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_bold"
+                android:lineSpacingExtra="2sp"
+                android:text="@string/chris_evans"
+                android:textAppearance="@style/movie"
+                app:layout_constraintStart_toStartOf="@id/movie2"
+                app:layout_constraintEnd_toEndOf="@id/movie2"
+                app:layout_constraintTop_toBottomOf="@id/movie2" />
 
-        <ImageView
-            android:id="@+id/path"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_path"
-            app:layout_constraintEnd_toStartOf="@id/back"
-            app:layout_constraintTop_toTopOf="@id/back"
-            app:layout_constraintBottom_toBottomOf="@id/back"/>
+            <TextView
+                android:id="@+id/mark_ruffal"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_bold"
+                android:lineSpacingExtra="2sp"
+                android:text="@string/mark_ruffal"
+                android:textAppearance="@style/movie"
+                app:layout_constraintStart_toStartOf="@id/movie3"
+                app:layout_constraintEnd_toEndOf="@id/movie3"
+                app:layout_constraintTop_toBottomOf="@id/movie3" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/chris_hemsw"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_bold"
+                android:lineSpacingExtra="2sp"
+                android:text="@string/chris_hemsw"
+                android:textAppearance="@style/movie"
+                app:layout_constraintStart_toStartOf="@id/movie4"
+                app:layout_constraintEnd_toEndOf="@id/movie4"
+                app:layout_constraintTop_toBottomOf="@id/movie4" />
+
+            <TextView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:layout_marginLeft="32dp"
+                android:fontFamily="@font/roboto_bold"
+                android:lineSpacingExtra="2sp"
+                android:text="@string/back"
+                android:textAppearance="@style/back"
+                android:alpha="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_path"
+                app:layout_constraintEnd_toStartOf="@id/back"
+                app:layout_constraintTop_toTopOf="@id/back"
+                app:layout_constraintBottom_toBottomOf="@id/back"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
