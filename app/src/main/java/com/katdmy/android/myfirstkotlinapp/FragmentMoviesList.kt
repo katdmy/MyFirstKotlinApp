@@ -1,12 +1,10 @@
 package com.katdmy.android.myfirstkotlinapp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 
 class FragmentMoviesList : Fragment() {
@@ -20,13 +18,19 @@ class FragmentMoviesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val moviesListItem = view.findViewById<View>(R.id.movie_list_item).apply {
+        view.findViewById<View>(R.id.movie_list_item).apply {
             setOnClickListener {  listener?.showDetailView() }
         }
     }
 
-    fun setListener(l: ClickListener) {
-        listener = l
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = if (context is ClickListener) context else null
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     interface ClickListener {

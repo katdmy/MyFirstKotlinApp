@@ -1,10 +1,10 @@
 package com.katdmy.android.myfirstkotlinapp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -31,13 +31,19 @@ class FragmentMoviesDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val backButton = view.findViewById<TextView>(R.id.back).apply {
+        view.findViewById<TextView>(R.id.back).apply {
             setOnClickListener {  listener?.detailsBack() }
         }
     }
 
-    fun setListener(l: ClickListener) {
-        listener = l
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = if (context is ClickListener) context else null
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     interface ClickListener {

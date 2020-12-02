@@ -5,8 +5,8 @@ import android.os.Bundle
 
 class MainActivity : AppCompatActivity(), FragmentMoviesList.ClickListener, FragmentMoviesDetails.ClickListener {
 
-    private val moviesList = FragmentMoviesList().apply { setListener(this@MainActivity) }
-    private val moviesDetails = FragmentMoviesDetails().apply { setListener(this@MainActivity) }
+    private val moviesList = FragmentMoviesList()
+    private val moviesDetails = FragmentMoviesDetails()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
