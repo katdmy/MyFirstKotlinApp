@@ -31,14 +31,13 @@ class FragmentMoviesDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.back).apply {
-            setOnClickListener {  listener?.detailsBack() }
-        }
+        view.findViewById<TextView>(R.id.back).setOnClickListener {  listener?.detailsBack() }
+
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = if (context is ClickListener) context else null
+        listener = context as? ClickListener
     }
 
     override fun onDetach() {

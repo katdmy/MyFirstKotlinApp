@@ -13,25 +13,19 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.ClickListener, Frag
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction()
-            .apply {
-                add(R.id.frame_layout, moviesList)
-                commit()
-            }
+            .add(R.id.frame_layout, moviesList)
+            .commit()
     }
 
     override fun showDetailView() {
         supportFragmentManager.beginTransaction()
-            .apply {
-                add(R.id.frame_layout, moviesDetails)
-                commit()
-            }
+            .replace(R.id.frame_layout, moviesDetails)
+            .commit()
     }
 
     override fun detailsBack() {
         supportFragmentManager.beginTransaction()
-            .apply {
-                remove(supportFragmentManager.fragments.get(supportFragmentManager.fragments.size-1))
-                commit()
-            }
+            .replace(R.id.frame_layout, moviesList)
+            .commit()
     }
 }

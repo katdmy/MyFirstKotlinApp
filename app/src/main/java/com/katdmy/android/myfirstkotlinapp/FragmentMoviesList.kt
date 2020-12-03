@@ -18,14 +18,12 @@ class FragmentMoviesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<View>(R.id.movie_list_item).apply {
-            setOnClickListener {  listener?.showDetailView() }
-        }
+        view.findViewById<View>(R.id.movie_list_item).setOnClickListener {  listener?.showDetailView() }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = if (context is ClickListener) context else null
+        listener = context as? ClickListener
     }
 
     override fun onDetach() {
