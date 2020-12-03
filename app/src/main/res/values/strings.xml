@@ -12,4 +12,10 @@
     <string name="mark_ruffal">Mark Ruffalo</string>
     <string name="chris_hemsw">Chris Hemsworth</string>
     <string name="back">Back</string>
+    <string name="location_search">Movies list</string>
+    <string name="reviews_list_name">125 Reviews</string>
+    <string name="tag_list">Action, Adventure, Drama</string>
+    <string name="name_list">Avengers: End Game</string>
+    <string name="length_list">137 min</string>
+
 </resources>

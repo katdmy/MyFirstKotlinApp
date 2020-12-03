@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:fitsSystemWindows="true"
-    tools:context=".MovieDetailsActivity">
+    tools:context=".FragmentMoviesDetails">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:layout_behavior="" >
+            app:layout_behavior="">
 
             <ImageView
                 android:id="@+id/orig"
@@ -32,6 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Mask -->
+
             <ImageView
                 android:id="@+id/mask_1"
                 android:layout_width="0dp"
@@ -120,66 +121,69 @@
 
             <ImageView
                 android:id="@+id/star1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:background="@drawable/ic_star_icon_filled"
                 android:baselineAlignBottom="true"
-                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintTop_toTopOf="@id/reviews_name"
+                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/star2"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/star2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="3.25dp"
-                android:layout_marginTop="8dp"
                 android:background="@drawable/ic_star_icon_filled"
                 android:baselineAlignBottom="true"
-                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintTop_toTopOf="@id/reviews_name"
+                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/star3"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/star1" />
 
             <ImageView
                 android:id="@+id/star3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="3.25dp"
-                android:layout_marginTop="8dp"
                 android:background="@drawable/ic_star_icon_filled"
                 android:baselineAlignBottom="true"
-                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintTop_toTopOf="@id/reviews_name"
+                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/star4"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/star2" />
 
             <ImageView
                 android:id="@+id/star4"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="3.25dp"
-                android:layout_marginTop="8dp"
                 android:background="@drawable/ic_star_icon_filled"
                 android:baselineAlignBottom="true"
-                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintTop_toTopOf="@id/reviews_name"
+                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
+                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/star5"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/star3" />
 
             <ImageView
                 android:id="@+id/star5"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="3.25dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/ic_star_icon"
                 android:baselineAlignBottom="true"
-                app:layout_constraintBaseline_toBaselineOf="@id/reviews_name"
+                app:layout_constraintTop_toTopOf="@id/reviews_name"
+                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintEnd_toStartOf="@id/reviews_name"
                 app:layout_constraintStart_toEndOf="@+id/star4" />
 
             <TextView
@@ -241,8 +245,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/movie1"
                 android:background="@drawable/round_outline"
+                android:src="@drawable/movie1"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/movie2"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -255,8 +259,8 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/movie2"
                 android:background="@drawable/round_outline"
+                android:src="@drawable/movie2"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@+id/movie3"
                 app:layout_constraintStart_toEndOf="@+id/movie1"
@@ -268,8 +272,8 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/movie3"
                 android:background="@drawable/round_outline"
+                android:src="@drawable/movie3"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toStartOf="@id/movie4"
                 app:layout_constraintStart_toEndOf="@id/movie2"
@@ -281,8 +285,8 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/movie4"
                 android:background="@drawable/round_outline"
+                android:src="@drawable/movie4"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/movie3"
@@ -297,8 +301,8 @@
                 android:lineSpacingExtra="2sp"
                 android:text="@string/robert_down"
                 android:textAppearance="@style/movie"
-                app:layout_constraintStart_toStartOf="@id/movie1"
                 app:layout_constraintEnd_toEndOf="@id/movie1"
+                app:layout_constraintStart_toStartOf="@id/movie1"
                 app:layout_constraintTop_toBottomOf="@id/movie1" />
 
             <TextView
@@ -310,8 +314,8 @@
                 android:lineSpacingExtra="2sp"
                 android:text="@string/chris_evans"
                 android:textAppearance="@style/movie"
-                app:layout_constraintStart_toStartOf="@id/movie2"
                 app:layout_constraintEnd_toEndOf="@id/movie2"
+                app:layout_constraintStart_toStartOf="@id/movie2"
                 app:layout_constraintTop_toBottomOf="@id/movie2" />
 
             <TextView
@@ -323,8 +327,8 @@
                 android:lineSpacingExtra="2sp"
                 android:text="@string/mark_ruffal"
                 android:textAppearance="@style/movie"
-                app:layout_constraintStart_toStartOf="@id/movie3"
                 app:layout_constraintEnd_toEndOf="@id/movie3"
+                app:layout_constraintStart_toStartOf="@id/movie3"
                 app:layout_constraintTop_toBottomOf="@id/movie3" />
 
             <TextView
@@ -336,34 +340,26 @@
                 android:lineSpacingExtra="2sp"
                 android:text="@string/chris_hemsw"
                 android:textAppearance="@style/movie"
-                app:layout_constraintStart_toStartOf="@id/movie4"
                 app:layout_constraintEnd_toEndOf="@id/movie4"
+                app:layout_constraintStart_toStartOf="@id/movie4"
                 app:layout_constraintTop_toBottomOf="@id/movie4" />
 
             <TextView
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
                 android:layout_marginTop="56dp"
-                android:layout_marginLeft="32dp"
+                android:alpha="0.5"
+                android:drawableLeft="@drawable/ic_path"
+                android:drawablePadding="8dp"
                 android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
                 android:lineSpacingExtra="2sp"
                 android:text="@string/back"
                 android:textAppearance="@style/back"
-                android:alpha="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <ImageView
-                android:id="@+id/path"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/ic_path"
-                app:layout_constraintEnd_toStartOf="@id/back"
-                app:layout_constraintTop_toTopOf="@id/back"
-                app:layout_constraintBottom_toBottomOf="@id/back"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

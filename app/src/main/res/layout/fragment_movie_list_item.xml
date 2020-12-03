@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="170dp"
+    android:layout_height="302dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#191926">
+
+        <ImageView
+            android:id="@+id/movie_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/movie_bg"
+            app:layout_constraintDimensionRatio="166:248"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/movie_bg_mask"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/movie_bg_mask"
+            app:layout_constraintBottom_toBottomOf="@id/movie_bg"
+            app:layout_constraintEnd_toEndOf="@id/movie_bg"
+            app:layout_constraintStart_toStartOf="@id/movie_bg"
+            app:layout_constraintTop_toTopOf="@id/movie_bg" />
+
+        <ImageView
+            android:id="@+id/pg"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rectangle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/some_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/some_id"
+            android:textAppearance="@style/some_id"
+            app:layout_constraintBottom_toBottomOf="@id/pg"
+            app:layout_constraintEnd_toEndOf="@id/pg"
+            app:layout_constraintStart_toStartOf="@id/pg"
+            app:layout_constraintTop_toTopOf="@id/pg" />
+
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintBottom_toBottomOf="@id/pg"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pg"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/reviews_list_name"
+            android:layout_width="53dp"
+            android:layout_height="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="74dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/reviews_list_name"
+            android:textAppearance="@style/reviews_list_name"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_bg"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/star1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/ic_star_icon_filled"
+            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/star2"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
+
+        <ImageView
+            android:id="@+id/star2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_star_icon_filled"
+            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/star3"
+            app:layout_constraintStart_toEndOf="@+id/star1"
+            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
+
+        <ImageView
+            android:id="@+id/star3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_star_icon_filled"
+            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/star4"
+            app:layout_constraintStart_toEndOf="@+id/star2"
+            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
+
+        <ImageView
+            android:id="@+id/star4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_star_icon_filled"
+            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/star5"
+            app:layout_constraintStart_toEndOf="@+id/star3"
+            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
+
+        <ImageView
+            android:id="@+id/star5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/ic_star_icon"
+            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toStartOf="@+id/reviews_list_name"
+            app:layout_constraintStart_toEndOf="@+id/star4"
+            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
+
+        <TextView
+            android:id="@+id/tag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="2dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/tag_list"
+            android:textAppearance="@style/tag_list"
+            app:layout_constraintBottom_toTopOf="@id/reviews_list_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/name_list"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:text="@string/name_list"
+            android:textAppearance="@style/name_list"
+            app:layout_constraintBottom_toTopOf="@id/length_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movie_bg" />
+
+        <TextView
+            android:id="@+id/length_list"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:text="@string/length_list"
+            android:textAllCaps="true"
+            android:textAppearance="@style/length_list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
