@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="170dp"
-    android:layout_height="302dp">
+    android:layout_height="302dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,9 +14,10 @@
             android:id="@+id/movie_bg"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/movie_bg"
+            android:background="@drawable/movie_bg1"
             app:layout_constraintDimensionRatio="166:248"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,6 +60,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_favorite"
+            android:background="@drawable/like"
             app:layout_constraintBottom_toBottomOf="@id/pg"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,63 +83,25 @@
             app:layout_constraintBottom_toBottomOf="@+id/movie_bg"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/star1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <RatingBar
+            android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
             android:layout_marginStart="6dp"
-            android:background="@drawable/ic_star_icon_filled"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="#6D6D80"
+            android:progressTint="#FF3365"
+            android:rating="4"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:secondaryProgressTint="#6D6D80"
+            android:translationX="-13dp"
             app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/star2"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
-
-        <ImageView
-            android:id="@+id/star2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/ic_star_icon_filled"
-            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/star3"
-            app:layout_constraintStart_toEndOf="@+id/star1"
-            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
-
-        <ImageView
-            android:id="@+id/star3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/ic_star_icon_filled"
-            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/star4"
-            app:layout_constraintStart_toEndOf="@+id/star2"
-            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
-
-        <ImageView
-            android:id="@+id/star4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/ic_star_icon_filled"
-            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/star5"
-            app:layout_constraintStart_toEndOf="@+id/star3"
-            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
-
-        <ImageView
-            android:id="@+id/star5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="6dp"
-            android:background="@drawable/ic_star_icon"
-            app:layout_constraintBottom_toBottomOf="@id/reviews_list_name"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toStartOf="@+id/reviews_list_name"
-            app:layout_constraintStart_toEndOf="@+id/star4"
-            app:layout_constraintTop_toTopOf="@id/reviews_list_name" />
+        <!--app:layout_constraintEnd_toStartOf="@id/reviews_list_name"-->
 
         <TextView
             android:id="@+id/tag"

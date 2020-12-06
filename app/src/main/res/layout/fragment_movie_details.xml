@@ -119,72 +119,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tag" />
 
-            <ImageView
-                android:id="@+id/star1"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <RatingBar
+                android:id="@+id/rating"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/ic_star_icon_filled"
-                android:baselineAlignBottom="true"
-                app:layout_constraintTop_toTopOf="@id/reviews_name"
-                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/star2"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/star2"
+                android:layout_marginEnd="6dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/ic_star_icon_filled"
-                android:baselineAlignBottom="true"
+                android:secondaryProgressTint="#6D6D80"
+                android:progressBackgroundTint="#6D6D80"
+                android:progressTint="#FF3365"
+                android:numStars="5"
+                android:rating="4"
+                android:isIndicator="true"
                 app:layout_constraintTop_toTopOf="@id/reviews_name"
-                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/star3"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/star1" />
-
-            <ImageView
-                android:id="@+id/star3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/ic_star_icon_filled"
-                android:baselineAlignBottom="true"
-                app:layout_constraintTop_toTopOf="@id/reviews_name"
-                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/star4"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/star2" />
-
-            <ImageView
-                android:id="@+id/star4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/ic_star_icon_filled"
-                android:baselineAlignBottom="true"
-                app:layout_constraintTop_toTopOf="@id/reviews_name"
-                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@+id/star5"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/star3" />
-
-            <ImageView
-                android:id="@+id/star5"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/ic_star_icon"
-                android:baselineAlignBottom="true"
-                app:layout_constraintTop_toTopOf="@id/reviews_name"
-                app:layout_constraintBottom_toBottomOf="@id/reviews_name"
-                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/reviews_name"
-                app:layout_constraintStart_toEndOf="@+id/star4" />
+                app:layout_constraintBottom_toBottomOf="@id/reviews_name" />
 
             <TextView
                 android:id="@+id/storyline_name"
