@@ -1,14 +1,16 @@
 package com.katdmy.android.myfirstkotlinapp
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class MoviesAdapter(private val listener: MovieClickListener): RecyclerView.Adapter<MoviesViewHolder>() {
+class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerView.Adapter<MoviesViewHolder>() {
     private var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -44,9 +46,9 @@ class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val length: TextView = itemView.findViewById(R.id.length_list)
 
     fun onBind(movie: Movie) {
-        image.setImageDrawable(itemView.context.getDrawable(movie.image))
+        image.setImageDrawable(ContextCompat.getDrawable(itemView.context, movie.image))
         pg.text = "${movie.pg}+"
-        like.setColorFilter(R.color.purple)
+        if (!movie.like) like.setColorFilter(Color.argb(255, 255, 255, 255))
         reviews.text = "${movie.reviews} reviews"
         rating.rating = movie.rating
         tag.text = movie.tag
@@ -55,6 +57,6 @@ class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     }
 }
 
-interface MovieClickListener {
+interface MoviesAdapterClickListener {
     fun onClick(movie: Movie)
 }

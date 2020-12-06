@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="11dp"
+    android:layout_marginHorizontal="5dp"
     android:layout_width="170dp"
     android:layout_height="302dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    card_view:cardElevation="2dp"
+    card_view:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#191926">
+        android:background="@drawable/card_bg">
 
         <ImageView
             android:id="@+id/movie_bg"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/movie_bg1"
+            tools:background="@drawable/movie_bg1"
             app:layout_constraintDimensionRatio="166:248"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -32,7 +37,7 @@
             app:layout_constraintTop_toTopOf="@id/movie_bg" />
 
         <ImageView
-            android:id="@+id/pg"
+            android:id="@+id/pg_bg"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -42,30 +47,28 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/some_id"
+            android:id="@+id/pg"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="@string/some_id"
             android:textAppearance="@style/some_id"
-            app:layout_constraintBottom_toBottomOf="@id/pg"
-            app:layout_constraintEnd_toEndOf="@id/pg"
-            app:layout_constraintStart_toStartOf="@id/pg"
-            app:layout_constraintTop_toTopOf="@id/pg" />
+            app:layout_constraintBottom_toBottomOf="@id/pg_bg"
+            app:layout_constraintEnd_toEndOf="@id/pg_bg"
+            app:layout_constraintStart_toStartOf="@id/pg_bg"
+            app:layout_constraintTop_toTopOf="@id/pg_bg" />
 
         <ImageView
             android:id="@+id/like"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_favorite"
-            android:background="@drawable/like"
-            app:layout_constraintBottom_toBottomOf="@id/pg"
+            android:src="@drawable/ic_like"
+            app:layout_constraintBottom_toBottomOf="@id/pg_bg"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/pg"
-            app:tint="#FFFFFF" />
+            app:layout_constraintTop_toTopOf="@id/pg_bg" />
 
         <TextView
             android:id="@+id/reviews_list_name"
