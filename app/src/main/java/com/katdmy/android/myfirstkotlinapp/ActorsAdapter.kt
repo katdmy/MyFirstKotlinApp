@@ -34,15 +34,15 @@ class ActorsAdapter(private val listener: ActorsClickListener): RecyclerView.Ada
     }
 
     fun shuffleData() {
-//        val oldList = actors
-//        val newList = actors.shuffled()
-//        actors = newList
-//        Log.e("ActorsAdapter", "ShuffledList: $newList")
-//        val diffCallback = ActorDiffUtilCallback(oldList, newList)
-//        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback);
-//        diffResult.dispatchUpdatesTo(this);
-        actors = actors.shuffled()
-        notifyDataSetChanged()
+        val oldList = actors
+        val newList = actors.shuffled()
+        actors = newList
+        Log.e("ActorsAdapter", "ShuffledList: $newList")
+        val diffCallback = ActorDiffUtilCallback(oldList, newList)
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback);
+        diffResult.dispatchUpdatesTo(this);
+//        actors = actors.shuffled()
+//        notifyDataSetChanged()
     }
 
 }
