@@ -3,7 +3,7 @@ package com.katdmy.android.myfirstkotlinapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity(), FragmentMoviesList.ClickListener, FragmentMoviesDetails.ClickListener {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieFragmentClickListener, FragmentMoviesDetails.BackClickListener {
 
     private val moviesList = FragmentMoviesList()
     private val moviesDetails = FragmentMoviesDetails()
@@ -17,10 +17,14 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.ClickListener, Frag
             .commit()
     }
 
-    override fun showDetailView() {
+    override fun showDetailView(movie: Movie) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, moviesDetails)
-            .commit()
+                .replace(R.id.frame_layout, FragmentMoviesDetails.newInstance(movie.name,
+                movie.pg,
+                movie.tag,
+                movie.rating,
+                movie.reviews))
+                .commit()
     }
 
     override fun detailsBack() {
@@ -28,4 +32,6 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.ClickListener, Frag
             .replace(R.id.frame_layout, moviesList)
             .commit()
     }
+
+
 }

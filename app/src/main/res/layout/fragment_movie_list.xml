@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#191926">
 
     <androidx.constraintlayout.widget.Guideline
@@ -37,15 +36,17 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintStart_toEndOf="@id/aim_ic" />
 
-    <fragment
-        android:id="@+id/movie_list_item"
-        android:layout_width="170dp"
-        android:layout_height="302dp"
-        android:layout_marginTop="38dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/movies_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="43dp"
         android:layout_marginStart="12dp"
-        android:name="com.katdmy.android.myfirstkotlinapp.FragmentMoviesListItem"
-        tools:layout="@layout/fragment_movie_list_item"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
