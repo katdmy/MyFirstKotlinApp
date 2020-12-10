@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieFragmentClickL
                 movie.rating,
                 movie.reviews))
                 .commit()
-        //moviesDetails.setMovieData(movie)
     }
 
     override fun detailsBack() {

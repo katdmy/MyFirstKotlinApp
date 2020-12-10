@@ -41,8 +41,6 @@ class ActorsAdapter(private val listener: ActorsClickListener): RecyclerView.Ada
         val diffCallback = ActorDiffUtilCallback(oldList, newList)
         val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback);
         diffResult.dispatchUpdatesTo(this);
-//        actors = actors.shuffled()
-//        notifyDataSetChanged()
     }
 
 }
