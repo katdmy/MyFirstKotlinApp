@@ -64,7 +64,7 @@ class FragmentMoviesDetails : Fragment() {
         adapter = ActorsAdapter(clickListener)
         recycler?.adapter = adapter
 
-        //scope.launch { adapter?.setData(loadActors(view.context)) }
+        scope.launch { adapter?.setData(movieData?.actors) }
     }
 
     override fun onAttach(context: Context) {

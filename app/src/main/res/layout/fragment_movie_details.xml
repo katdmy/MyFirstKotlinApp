@@ -26,12 +26,9 @@
                 android:layout_height="298dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/orig"
-                app:layout_constraintDimensionRatio=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- Mask -->
 
             <ImageView
                 android:id="@+id/mask_1"
