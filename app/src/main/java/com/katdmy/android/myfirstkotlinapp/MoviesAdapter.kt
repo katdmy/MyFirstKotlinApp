@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.katdmy.android.myfirstkotlinapp.data.Movie
 
 class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerView.Adapter<MoviesViewHolder>() {
     private var movies = listOf<Movie>()
@@ -46,14 +48,25 @@ class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val length: TextView = itemView.findViewById(R.id.length_list)
 
     fun onBind(movie: Movie) {
-        image.setImageDrawable(ContextCompat.getDrawable(itemView.context, movie.image))
-        pg.text = "${movie.pg}+"
-        if (!movie.like) like.setColorFilter(Color.argb(255, 255, 255, 255))
-        reviews.text = "${movie.reviews} reviews"
-        rating.rating = movie.rating
-        tag.text = movie.tag
-        name.text = movie.name
-        length.text = "${movie.length} min"
+        Glide.with(itemView.context)
+            .load(movie.poster)
+            .apply(options)
+            .into(image)
+
+        pg.text = "${movie.minimumAge}+"
+        //if (!movie.like) like.setColorFilter(Color.argb(255, 255, 255, 255))
+        reviews.text = "${movie.numberOfRatings} reviews"
+        rating.rating = movie.ratings / 2
+        tag.text = movie.genres.toString().replace("[", "").replace("]", "");
+        name.text = movie.title
+        length.text = "${movie.runtime} min"
+    }
+
+    companion object {
+        private val options = RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.movie_placeholder)
+            .error(R.drawable.movie_placeholder)
     }
 }
 
