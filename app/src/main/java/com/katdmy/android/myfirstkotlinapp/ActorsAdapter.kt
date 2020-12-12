@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.katdmy.android.myfirstkotlinapp.data.Actor
 
@@ -62,7 +64,7 @@ class ActorsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     companion object {
         private val options = RequestOptions()
-            .centerCrop()
+            .transforms(CenterCrop(), RoundedCorners(8))
             .placeholder(R.drawable.movie_placeholder)
             .error(R.drawable.movie_placeholder)
     }

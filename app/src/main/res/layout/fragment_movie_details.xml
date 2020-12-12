@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    android:fitsSystemWindows="true"
     tools:context=".FragmentMoviesDetails">
 
     <androidx.core.widget.NestedScrollView
@@ -17,15 +16,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             app:layout_behavior="">
 
             <ImageView
                 android:id="@+id/orig"
                 android:layout_width="0dp"
                 android:layout_height="298dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/orig"
+                tools:src="@drawable/orig"
+                tools:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
