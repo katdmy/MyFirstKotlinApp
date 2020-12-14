@@ -25,12 +25,12 @@ class FragmentMoviesDetails : Fragment() {
 
     private var backListener: BackClickListener? = null
     private var recycler: RecyclerView? = null
-    var adapter: ActorsAdapter? = null
+    private var adapter: ActorsAdapter? = null
+    private lateinit var movieData: Movie
 
-    private var movieData: Movie? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let { movieData = it.getParcelable(PARAM_MOVIE) }
+        arguments?.let { movieData = requireNotNull(it.getParcelable(PARAM_MOVIE)) }
     }
 
     override fun onCreateView(
@@ -49,23 +49,23 @@ class FragmentMoviesDetails : Fragment() {
             .placeholder(R.drawable.movie_placeholder)
             .error(R.drawable.movie_placeholder)
         Glide.with(context)
-            .load(movieData?.backdrop)
+            .load(movieData.backdrop)
             .apply(options)
             .into(backdrop)
 
-        view.findViewById<TextView>(R.id.name).text = movieData?.title
-        view.findViewById<TextView>(R.id.pg).text = "${movieData?.minimumAge}+"
-        view.findViewById<TextView>(R.id.tag).text = movieData?.genres.toString().replace("[", "").replace("]", "");
-        view.findViewById<RatingBar>(R.id.rating).rating = movieData?.ratings?.div(2) ?: 0f
-        view.findViewById<TextView>(R.id.reviews_name).text = "${movieData?.numberOfRatings} reviews"
-        view.findViewById<TextView>(R.id.overview).text = movieData?.overview
+        view.findViewById<TextView>(R.id.name).text = movieData.title
+        view.findViewById<TextView>(R.id.pg).text = "${movieData.minimumAge}+"
+        view.findViewById<TextView>(R.id.tag).text = movieData.genres.toString().replace("[", "").replace("]", "")
+        view.findViewById<RatingBar>(R.id.rating).rating = movieData.ratings.div(2)
+        view.findViewById<TextView>(R.id.reviews_name).text = "${movieData.numberOfRatings} reviews"
+        view.findViewById<TextView>(R.id.overview).text = movieData.overview
 
         recycler = view.findViewById(R.id.actors_list)
         recycler?.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         adapter = ActorsAdapter(clickListener)
         recycler?.adapter = adapter
 
-        scope.launch { adapter?.setData(movieData?.actors) }
+        scope.launch { adapter?.setData(movieData.actors) }
     }
 
     override fun onAttach(context: Context) {
