@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    android:fitsSystemWindows="true"
     tools:context=".FragmentMoviesDetails">
 
     <androidx.core.widget.NestedScrollView
@@ -17,21 +16,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             app:layout_behavior="">
 
             <ImageView
                 android:id="@+id/orig"
                 android:layout_width="0dp"
                 android:layout_height="298dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/orig"
-                app:layout_constraintDimensionRatio=""
+                tools:src="@drawable/orig"
+                tools:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- Mask -->
 
             <ImageView
                 android:id="@+id/mask_1"
@@ -156,7 +151,7 @@
                 app:layout_constraintTop_toBottomOf="@id/reviews_name" />
 
             <TextView
-                android:id="@+id/after_the_d"
+                android:id="@+id/overview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -187,7 +182,7 @@
                 android:text="@string/heading"
                 android:textAppearance="@style/heading"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/after_the_d" />
+                app:layout_constraintTop_toBottomOf="@id/overview" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/actors_list"

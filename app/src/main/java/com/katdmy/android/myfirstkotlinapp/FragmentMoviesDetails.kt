@@ -5,31 +5,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.katdmy.android.myfirstkotlinapp.data.Movie
+import com.katdmy.android.myfirstkotlinapp.data.loadMovies
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FragmentMoviesDetails : Fragment() {
+    private val scope = CoroutineScope(Dispatchers.Main)
+
     private var backListener: BackClickListener? = null
     private var recycler: RecyclerView? = null
-    var adapter: ActorsAdapter? = null
+    private var adapter: ActorsAdapter? = null
+    private lateinit var movieData: Movie
 
-    private var movieName: String = ""
-    private var moviePg: Int = 0
-    private var movieTag: String = ""
-    private var movieRating: Float = 0f
-    private var movieReviews: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            movieName = it.getString(PARAM_NAME, "movie name")
-            moviePg = it.getInt(PARAM_PG)
-            movieTag = it.getString(PARAM_TAG, "tags")
-            movieRating = it.getFloat(PARAM_RATING)
-            movieReviews = it.getInt(PARAM_REVIEWS)
-        }
+        arguments?.let { movieData = requireNotNull(it.getParcelable(PARAM_MOVIE)) }
     }
 
     override fun onCreateView(
@@ -42,31 +43,29 @@ class FragmentMoviesDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<TextView>(R.id.back).setOnClickListener { backListener?.detailsBack() }
 
-        view.findViewById<TextView>(R.id.name).text = movieName
-        view.findViewById<TextView>(R.id.pg).text = "${moviePg}+"
-        view.findViewById<TextView>(R.id.tag).text = movieTag
-        view.findViewById<RatingBar>(R.id.rating).rating = movieRating
-        view.findViewById<TextView>(R.id.reviews_name).text = "${movieReviews} reviews"
+        val backdrop = view.findViewById<ImageView>(R.id.orig)
+        val options = RequestOptions()
+            .centerCrop()
+            .placeholder(R.drawable.movie_placeholder)
+            .error(R.drawable.movie_placeholder)
+        Glide.with(context)
+            .load(movieData.backdrop)
+            .apply(options)
+            .into(backdrop)
+
+        view.findViewById<TextView>(R.id.name).text = movieData.title
+        view.findViewById<TextView>(R.id.pg).text = "${movieData.minimumAge}+"
+        view.findViewById<TextView>(R.id.tag).text = movieData.genres.toString().replace("[", "").replace("]", "")
+        view.findViewById<RatingBar>(R.id.rating).rating = movieData.ratings.div(2)
+        view.findViewById<TextView>(R.id.reviews_name).text = "${movieData.numberOfRatings} reviews"
+        view.findViewById<TextView>(R.id.overview).text = movieData.overview
 
         recycler = view.findViewById(R.id.actors_list)
         recycler?.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         adapter = ActorsAdapter(clickListener)
         recycler?.adapter = adapter
-    }
 
-    override fun onStart() {
-        super.onStart()
-
-        adapter?.setData(getActors())
-    }
-
-    private fun getActors(): List<Actor> {
-        val actors = mutableListOf<Actor>()
-        actors.add(Actor(R.drawable.actor1, "Robert\nDowney Jr."))
-        actors.add(Actor(R.drawable.actor2, "Chris\nEvans"))
-        actors.add(Actor(R.drawable.actor3, "Mark\nRuffalo"))
-        actors.add(Actor(R.drawable.actor4, "Chris Hemsworth"))
-        return actors
+        scope.launch { adapter?.setData(movieData.actors) }
     }
 
     override fun onAttach(context: Context) {
@@ -91,26 +90,14 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     companion object {
-        private const val PARAM_NAME = "movie_name"
-        private const val PARAM_PG = "movie_pg"
-        private const val PARAM_TAG = "movie_tag"
-        private const val PARAM_RATING = "movie_rating"
-        private const val PARAM_REVIEWS = "movie_reviews"
+        private const val PARAM_MOVIE = "movie"
 
         fun newInstance(
-                name: String,
-                pg: Int,
-                tag: String,
-                rating: Float,
-                reviews: Int
+            movie: Movie
         ): FragmentMoviesDetails {
             val fragment = FragmentMoviesDetails()
             val args = Bundle()
-            args.putString(PARAM_NAME, name)
-            args.putInt(PARAM_PG, pg)
-            args.putString(PARAM_TAG, tag)
-            args.putFloat(PARAM_RATING, rating)
-            args.putInt(PARAM_REVIEWS, reviews)
+            args.putParcelable(PARAM_MOVIE, movie)
             fragment.arguments = args
             return fragment
         }
