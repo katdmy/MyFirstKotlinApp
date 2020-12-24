@@ -1,4 +1,4 @@
-package com.katdmy.android.myfirstkotlinapp
+package com.katdmy.android.myfirstkotlinapp.moviesdetails
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.data.Actor
 
 class ActorsAdapter(private val listener: ActorsClickListener): RecyclerView.Adapter<ActorsViewHolder>() {
@@ -43,8 +44,8 @@ class ActorsAdapter(private val listener: ActorsClickListener): RecyclerView.Ada
         actors = newList
         Log.e("ActorsAdapter", "ShuffledList: $newList")
         val diffCallback = ActorDiffUtilCallback(oldList, newList)
-        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback);
-        diffResult.dispatchUpdatesTo(this);
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(this)
     }
 }
 
@@ -67,6 +68,27 @@ class ActorsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .transforms(CenterCrop(), RoundedCorners(8))
             .placeholder(R.drawable.movie_placeholder)
             .error(R.drawable.movie_placeholder)
+    }
+}
+
+class ActorDiffUtilCallback(
+    private val oldList: List<Actor>?,
+    private val newList: List<Actor>?
+): DiffUtil.Callback() {
+    override fun getOldListSize(): Int = oldList?.size ?: 0
+
+    override fun getNewListSize(): Int = newList?.size ?: 0
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldList?.get(oldItemPosition)
+        val newItem = newList?.get(newItemPosition)
+        return oldItem?.name == newItem?.name
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldList?.get(oldItemPosition)
+        val newItem = newList?.get(newItemPosition)
+        return oldItem == newItem
     }
 }
 

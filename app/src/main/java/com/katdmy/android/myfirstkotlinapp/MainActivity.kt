@@ -2,11 +2,13 @@ package com.katdmy.android.myfirstkotlinapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.katdmy.android.myfirstkotlinapp.data.Movie
+import com.katdmy.android.myfirstkotlinapp.moviesdetails.MovieDetailsFragment
+import com.katdmy.android.myfirstkotlinapp.movieslist.MovieListFragment
 
-class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieFragmentClickListener, FragmentMoviesDetails.BackClickListener {
+class MainActivity : AppCompatActivity(), MovieListFragment.MovieFragmentClickListener, MovieDetailsFragment.BackClickListener {
 
-    private val moviesList = FragmentMoviesList()
+    private val movieList = MovieListFragment()
+    private val movieDetails = MovieDetailsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,20 +16,20 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieFragmentClickL
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .add(R.id.frame_layout, moviesList)
+                    .add(R.id.frame_layout, movieList)
                     .commit()
         }
     }
 
-    override fun showDetailView(movie: Movie) {
+    override fun showDetailView() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, FragmentMoviesDetails.newInstance(movie))
-                .commit()
+            .replace(R.id.frame_layout, movieDetails)
+            .commit()
     }
 
     override fun detailsBack() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, moviesList)
+            .replace(R.id.frame_layout, movieList)
             .commit()
     }
 }
