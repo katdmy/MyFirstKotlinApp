@@ -1,7 +1,6 @@
 package com.katdmy.android.myfirstkotlinapp.moviesdetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -15,10 +14,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.data.Movie
 import com.katdmy.android.myfirstkotlinapp.MoviesViewModel
+import com.katdmy.android.myfirstkotlinapp.ViewModelFactory
 
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
-    private val viewModel: MoviesViewModel by activityViewModels()
+    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireContext()) }
 
     private var backListener: BackClickListener? = null
     private var recycler: RecyclerView? = null
@@ -73,7 +73,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     private fun setUpAdapter() {
         recycler?.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-        adapter = ActorsAdapter(clickListener)
+        adapter = ActorsAdapter { adapter?.shuffleData() }
         recycler?.adapter = adapter
     }
 
@@ -83,7 +83,6 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     }
 
     private fun fillMovieDetails(movie: Movie) {
-        Log.e("MovieDetailsFragment", "Got movie $movie, fill in the fields")
         val options = RequestOptions()
             .centerCrop()
             .placeholder(R.drawable.movie_placeholder)
@@ -101,12 +100,6 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         overviewTextView?.text = movie.overview
 
         adapter?.setData(movie.actors)
-    }
-
-    private var clickListener = object : ActorsClickListener {
-        override fun onClick() {
-            adapter?.shuffleData()
-        }
     }
 
     interface BackClickListener {

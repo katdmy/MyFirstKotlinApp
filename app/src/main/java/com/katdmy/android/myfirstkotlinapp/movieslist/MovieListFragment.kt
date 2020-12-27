@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.MoviesViewModel
+import com.katdmy.android.myfirstkotlinapp.ViewModelFactory
 import com.katdmy.android.myfirstkotlinapp.data.Movie
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
-    private val viewModel: MoviesViewModel by activityViewModels()
+    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireContext()) }
 
     private var recycler: RecyclerView? = null
     private var adapter: MoviesAdapter? = null
@@ -25,6 +26,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         setUpAdapter()
         setUpClickListener()
 
+        viewModel.onMoviesListRequested()
         viewModel.movies.observe(viewLifecycleOwner, this::updateAdapter)
     }
 
@@ -41,7 +43,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private fun setUpAdapter() {
         recycler?.layoutManager = GridLayoutManager(activity, 2)
-        adapter = MoviesAdapter(clickListener)
+        adapter = MoviesAdapter {movie: Movie -> movieClickListener(movie)}
         recycler?.adapter = adapter
     }
 
@@ -53,12 +55,10 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         adapter?.setData(movies)
     }
 
-    private var clickListener = object : MoviesAdapterClickListener {
-        override fun onClick(movie: Movie) {
-            Log.e("MovieListFragment", "Clicked on movie $movie")
-            viewModel.select(movie)
-            movieClickListener?.showDetailView()
-        }
+    //creating method to make it look simpler
+    private fun movieClickListener(movie: Movie) {
+        viewModel.onMovieSelected(movie)
+        movieClickListener?.showDetailView()
     }
 
     interface MovieFragmentClickListener {

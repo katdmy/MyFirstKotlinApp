@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.data.Movie
 
-class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerView.Adapter<MoviesViewHolder>() {
+class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit): RecyclerView.Adapter<MoviesViewHolder>() {
     private var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -23,7 +23,7 @@ class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerV
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         holder.onBind(movies[position])
-        holder.itemView.setOnClickListener { listener.onClick(movies[position]) }
+        holder.itemView.setOnClickListener { movieOnClickListener(movies[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -67,8 +67,4 @@ class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .placeholder(R.drawable.movie_placeholder)
             .error(R.drawable.movie_placeholder)
     }
-}
-
-interface MoviesAdapterClickListener {
-    fun onClick(movie: Movie)
 }

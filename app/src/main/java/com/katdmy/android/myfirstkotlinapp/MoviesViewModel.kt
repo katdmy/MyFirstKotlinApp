@@ -1,19 +1,21 @@
 package com.katdmy.android.myfirstkotlinapp
 
-import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.katdmy.android.myfirstkotlinapp.data.Movie
+import kotlinx.coroutines.launch
 
-class MoviesViewModel(application: Application) : AndroidViewModel(application) {
+class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
 
-    private val model = MoviesModel(application)
-    val movies: LiveData<List<Movie>> get() = model.getMovies()
+    val movies = MutableLiveData<List<Movie>>()
     val selected = MutableLiveData<Movie>()
 
-    fun select(movie: Movie) {
-        Log.e("MovieViewModel", "Selected movie was ${selected.value}")
+    fun onMoviesListRequested() {
+        viewModelScope.launch {
+            movies.value = repository.getMovies()
+        }
+    }
+
+    fun onMovieSelected(movie: Movie) {
         selected.value = movie
-        Log.e("MovieViewModel", "Selected movie is ${selected.value}")
     }
 }

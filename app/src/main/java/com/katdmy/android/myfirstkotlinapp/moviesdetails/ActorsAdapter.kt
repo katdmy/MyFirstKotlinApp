@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.data.Actor
 
-class ActorsAdapter(private val listener: ActorsClickListener): RecyclerView.Adapter<ActorsViewHolder>() {
+class ActorsAdapter(private val onActorClickListener: () -> Unit): RecyclerView.Adapter<ActorsViewHolder>() {
     private var actors : List<Actor>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorsViewHolder {
@@ -26,7 +26,7 @@ class ActorsAdapter(private val listener: ActorsClickListener): RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ActorsViewHolder, position: Int) {
         holder.onBind(actors?.get(position))
-        holder.itemView.setOnClickListener { listener.onClick() }
+        holder.itemView.setOnClickListener { onActorClickListener() }
     }
 
     override fun getItemCount(): Int {
@@ -90,8 +90,4 @@ class ActorDiffUtilCallback(
         val newItem = newList?.get(newItemPosition)
         return oldItem == newItem
     }
-}
-
-interface ActorsClickListener {
-    fun onClick()
 }
