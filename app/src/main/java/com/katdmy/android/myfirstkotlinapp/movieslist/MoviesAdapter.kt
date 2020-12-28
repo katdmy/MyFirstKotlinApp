@@ -1,4 +1,4 @@
-package com.katdmy.android.myfirstkotlinapp
+package com.katdmy.android.myfirstkotlinapp.movieslist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.data.Movie
 
-class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerView.Adapter<MoviesViewHolder>() {
+class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit): RecyclerView.Adapter<MoviesViewHolder>() {
     private var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -22,7 +23,7 @@ class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerV
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         holder.onBind(movies[position])
-        holder.itemView.setOnClickListener { listener.onClick(movies[position]) }
+        holder.itemView.setOnClickListener { movieOnClickListener(movies[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -33,7 +34,6 @@ class MoviesAdapter(private val listener: MoviesAdapterClickListener): RecyclerV
         movies = newMovies
         notifyDataSetChanged()
     }
-
 }
 
 class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -56,7 +56,7 @@ class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         //if (!movie.like) like.setColorFilter(Color.argb(255, 255, 255, 255))
         reviews.text = "${movie.numberOfRatings} reviews"
         rating.rating = movie.ratings / 2
-        tag.text = movie.genres.toString().replace("[", "").replace("]", "");
+        tag.text = movie.genres.toString().replace("[", "").replace("]", "")
         name.text = movie.title
         length.text = "${movie.runtime} min"
     }
@@ -67,8 +67,4 @@ class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .placeholder(R.drawable.movie_placeholder)
             .error(R.drawable.movie_placeholder)
     }
-}
-
-interface MoviesAdapterClickListener {
-    fun onClick(movie: Movie)
 }
