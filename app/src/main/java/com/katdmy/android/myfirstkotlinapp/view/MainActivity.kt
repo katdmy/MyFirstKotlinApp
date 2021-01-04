@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.katdmy.android.myfirstkotlinapp.R
 
-class MainActivity : AppCompatActivity(), MovieListFragment.MovieFragmentClickListener, MovieDetailsFragment.BackClickListener {
+class MainActivity : AppCompatActivity(), MovieListFragment.MovieFragmentClickListener,
+    MovieDetailsFragment.BackClickListener {
 
     private val movieList = MovieListFragment()
     private val movieDetails = MovieDetailsFragment()
@@ -15,8 +16,8 @@ class MainActivity : AppCompatActivity(), MovieListFragment.MovieFragmentClickLi
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .add(R.id.frame_layout, movieList)
-                    .commit()
+                .add(R.id.frame_layout, movieList)
+                .commit()
         }
     }
 

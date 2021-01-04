@@ -15,8 +15,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.model.Actor
 
-class ActorsAdapter(private val onActorClickListener: () -> Unit): RecyclerView.Adapter<ActorsViewHolder>() {
-    private var actors : List<Actor>? = null
+class ActorsAdapter(private val onActorClickListener: () -> Unit) :
+    RecyclerView.Adapter<ActorsViewHolder>() {
+    private var actors: List<Actor>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorsViewHolder {
         val view: View = LayoutInflater.from(parent.context)
@@ -49,7 +50,7 @@ class ActorsAdapter(private val onActorClickListener: () -> Unit): RecyclerView.
     }
 }
 
-class ActorsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class ActorsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val photo: ImageView = itemView.findViewById(R.id.actor_photo)
     private val name: TextView = itemView.findViewById(R.id.actor_name)
 
@@ -74,7 +75,7 @@ class ActorsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 class ActorDiffUtilCallback(
     private val oldList: List<Actor>?,
     private val newList: List<Actor>?
-): DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList?.size ?: 0
 
     override fun getNewListSize(): Int = newList?.size ?: 0

@@ -17,15 +17,22 @@ object MoviesRepository {
         Log.e(TAG, "Coroutine exception, scope active:${coroutineScope.isActive}", throwable)
     }
 
-    private val API_KEY = "37d023007af6569b99e1ba7cad35a94b"
+    private const val API_KEY = "37d023007af6569b99e1ba7cad35a94b"
 
-    suspend fun getPopularMovies() : List<Movie> = processMoviesList(tmdbApi.getPopularMovies(API_KEY))
+    suspend fun getPopularMovies(): List<Movie> =
+        processMoviesList(tmdbApi.getPopularMovies(API_KEY))
 
-    suspend fun getNowPlayingMovies() : List<Movie> = processMoviesList(tmdbApi.getNowPlayingMovies(API_KEY))
+    suspend fun getNowPlayingMovies(): List<Movie> =
+        processMoviesList(tmdbApi.getNowPlayingMovies(API_KEY))
 
-    suspend fun getTopRatedMovies() : List<Movie> = processMoviesList(tmdbApi.getTopRatedMovies(API_KEY))
+    suspend fun getTopRatedMovies(): List<Movie> =
+        processMoviesList(tmdbApi.getTopRatedMovies(API_KEY))
 
-    suspend fun getUpcomingMovies() : List<Movie> = processMoviesList(tmdbApi.getUpcomingMovies(API_KEY))
+    suspend fun getUpcomingMovies(): List<Movie> =
+        processMoviesList(tmdbApi.getUpcomingMovies(API_KEY))
+
+    suspend fun searchMovies(query: String): List<Movie> =
+        processMoviesList(tmdbApi.searchMovies(query, API_KEY))
 
     private suspend fun processMoviesList(jsonMovies: MoviesJsonList): List<Movie> {
         val conf = tmdbApi.getConfiguration(API_KEY)
@@ -44,13 +51,15 @@ object MoviesRepository {
                 numberOfRatings = jsonMovie.voteCount ?: 0,
                 minimumAge = if (jsonMovie.adult == true) 16 else 13,
                 runtime = tmdbApi.getMovieDetails(jsonMovie.id ?: 0, API_KEY).runtime ?: 0,
-                genres = jsonMovie.genreIds?.map { genresMap[it] ?: throw IllegalArgumentException("Genre not found") } ?: emptyList(),
+                genres = jsonMovie.genreIds?.map {
+                    genresMap[it] ?: throw IllegalArgumentException("Genre not found")
+                } ?: emptyList(),
                 actors = emptyList()
             )
         }
     }
 
-    suspend fun getMovieDetails(movie : Movie) : Movie {
+    suspend fun getMovieDetails(movie: Movie): Movie {
         val conf = tmdbApi.getConfiguration(API_KEY)
         val jsonActors = tmdbApi.getMovieActors(movie.id, API_KEY).cast ?: emptyList()
         val actors = jsonActors.map { jsonActor ->

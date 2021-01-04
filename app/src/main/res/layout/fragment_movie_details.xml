@@ -220,17 +220,17 @@
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="#FF3365"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:indeterminateTint="#FF3365" />
 
     <TextView
         android:id="@+id/empty_data_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:fontFamily="@font/roboto_bold"
         android:lineSpacingExtra="4sp"
-        android:text="No data loaded"
-        android:textAppearance="@style/location_search"
-        android:layout_gravity="center" />
+        android:text="@string/no_data_loaded"
+        android:textAppearance="@style/location_search" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

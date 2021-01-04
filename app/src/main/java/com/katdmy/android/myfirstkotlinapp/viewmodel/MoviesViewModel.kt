@@ -60,6 +60,18 @@ class MoviesViewModel() : ViewModel() {
         }
     }
 
+    fun onSearchMoviesRequested(query: String) {
+        moviesData.value = MovieListState.Loading
+        viewModelScope.launch {
+            val movies = MoviesRepository.searchMovies(query)
+            moviesData.value = if (movies.isEmpty()) {
+                MovieListState.Empty
+            } else {
+                MovieListState.Data(movies)
+            }
+        }
+    }
+
 
     fun onMovieSelected(movie: Movie) {
         selectedMovie.value = MovieDetailsState.Loading

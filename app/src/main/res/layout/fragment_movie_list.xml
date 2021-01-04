@@ -12,42 +12,44 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="64dp" />
 
-    <ImageView
-        android:id="@+id/aim_ic"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/ic_location"
-        android:baselineAlignBottom="true"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:layout_constraintBottom_toBottomOf="@id/guideline"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/location_search"
-        android:gravity="center_vertical"
-        android:textAppearance="@style/location_search"
-        android:fontFamily="@font/roboto_bold"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_et"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_movies"
         android:lineSpacingExtra="4sp"
-        app:layout_constraintTop_toTopOf="@id/guideline"
+        android:textColorHint="#FFFFFF"
+        app:boxBackgroundColor="#191926"
+        app:endIconDrawable="@drawable/ic_search"
+        app:endIconMode="custom"
+        app:endIconTint="#717187"
         app:layout_constraintBottom_toBottomOf="@id/guideline"
-        app:layout_constraintStart_toEndOf="@id/aim_ic" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:shapeAppearance="@style/Rounded"
+        app:startIconDrawable="@drawable/ic_location"
+        app:startIconTint="#FF3365">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/tabs_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/search_et"
         app:tabContentStart="16dp"
         app:tabIndicatorColor="#FF3365"
         app:tabMinWidth="114dp"
@@ -96,10 +98,10 @@
         android:id="@+id/empty_data_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/location_search"
         android:fontFamily="@font/roboto_bold"
         android:lineSpacingExtra="4sp"
-        android:text="No data loaded"
+        android:text="@string/no_data_loaded"
+        android:textAppearance="@style/location_search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,12 +111,12 @@
         android:id="@+id/movies_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="14dp"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tabs"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabs" />
 </androidx.constraintlayout.widget.ConstraintLayout>

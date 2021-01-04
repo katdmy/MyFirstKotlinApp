@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputLayout
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
 import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
@@ -16,8 +18,9 @@ import com.katdmy.android.myfirstkotlinapp.model.Movie
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
-    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory() }
 
+    private var searchTi: TextInputLayout? = null
     private var loadingSpinner: ProgressBar? = null
     private var emptyDataTv: TextView? = null
     private var tabLayout: TabLayout? = null
@@ -41,11 +44,13 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         tabLayout = null
         emptyDataTv = null
         loadingSpinner = null
+        searchTi = null
         movieClickListener = null
         super.onDestroyView()
     }
 
     private fun initViews(view: View) {
+        searchTi = view.findViewById(R.id.search_et)
         loadingSpinner = view.findViewById(R.id.loading_spinner)
         emptyDataTv = view.findViewById(R.id.empty_data_tv)
         tabLayout = view.findViewById(R.id.tabs)
@@ -54,11 +59,18 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private fun setUpAdapter() {
         recycler?.layoutManager = GridLayoutManager(activity, 2)
-        adapter = MoviesAdapter {movie: Movie -> movieClickListener(movie)}
+        adapter = MoviesAdapter { movie: Movie -> movieClickListener(movie) }
         recycler?.adapter = adapter
     }
 
     private fun setUpClickListener() {
+        searchTi?.setEndIconOnClickListener {
+            val queryString = searchTi?.editText?.text.toString()
+            if (queryString.isNotEmpty()) {
+                viewModel.onSearchMoviesRequested(queryString)
+                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+            }
+        }
         movieClickListener = context as? MovieFragmentClickListener
         tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -71,6 +83,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
                 }
                 viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
@@ -79,20 +92,20 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
     private fun updateAdapter(moviesData: MoviesViewModel.MovieListState) {
         when (moviesData) {
             is MoviesViewModel.MovieListState.Data -> {
-                    adapter?.setData(moviesData.movies)
-                    loadingSpinner?.visibility = View.GONE
-                    emptyDataTv?.visibility = View.GONE
-                }
+                adapter?.setData(moviesData.movies)
+                loadingSpinner?.visibility = View.GONE
+                emptyDataTv?.visibility = View.GONE
+            }
             MoviesViewModel.MovieListState.Loading -> {
-                    adapter?.setData(emptyList())
-                    loadingSpinner?.visibility = View.VISIBLE
-                    emptyDataTv?.visibility = View.GONE
-                }
+                adapter?.setData(emptyList())
+                loadingSpinner?.visibility = View.VISIBLE
+                emptyDataTv?.visibility = View.GONE
+            }
             MoviesViewModel.MovieListState.Empty -> {
-                    adapter?.setData(emptyList())
-                    loadingSpinner?.visibility = View.GONE
-                    emptyDataTv?.visibility = View.VISIBLE
-                }
+                adapter?.setData(emptyList())
+                loadingSpinner?.visibility = View.GONE
+                emptyDataTv?.visibility = View.VISIBLE
+            }
         }
     }
 
