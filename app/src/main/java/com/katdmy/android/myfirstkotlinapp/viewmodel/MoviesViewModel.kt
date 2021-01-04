@@ -7,18 +7,76 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel() : ViewModel() {
 
-    val movies = MutableLiveData<List<Movie>>()
-    val selected = MutableLiveData<Movie>()
+    private var moviesData = MutableLiveData<MovieListState>()
+    val selectedMovie = MutableLiveData<MovieDetailsState>()
 
-    fun onMoviesListRequested() {
+    fun getMoviesData() : LiveData<MovieListState> = moviesData
+
+    fun onPopularMoviesListRequested() {
+        moviesData.value = MovieListState.Loading
         viewModelScope.launch {
-            movies.value = MoviesRepository.getPopularMovies()
+            val movies = MoviesRepository.getPopularMovies()
+            moviesData.value = if (movies.isEmpty()) {
+                MovieListState.Empty
+            } else {
+                MovieListState.Data(movies)
+            }
         }
     }
 
-    fun onMovieSelected(movie: Movie) {
+    fun onNowPlayingMoviesListRequested() {
+        moviesData.value = MovieListState.Loading
         viewModelScope.launch {
-            selected.value = MoviesRepository.getMovieDetails(movie)
+            val movies = MoviesRepository.getNowPlayingMovies()
+            moviesData.value = if (movies.isEmpty()) {
+                MovieListState.Empty
+            } else {
+                MovieListState.Data(movies)
+            }
         }
+    }
+
+    fun onTopRatedMoviesListRequested() {
+        moviesData.value = MovieListState.Loading
+        viewModelScope.launch {
+            val movies = MoviesRepository.getTopRatedMovies()
+            moviesData.value = if (movies.isEmpty()) {
+                MovieListState.Empty
+            } else {
+                MovieListState.Data(movies)
+            }
+        }
+    }
+
+    fun onUpcomingMoviesListRequested() {
+        moviesData.value = MovieListState.Loading
+        viewModelScope.launch {
+            val movies = MoviesRepository.getUpcomingMovies()
+            moviesData.value = if (movies.isEmpty()) {
+                MovieListState.Empty
+            } else {
+                MovieListState.Data(movies)
+            }
+        }
+    }
+
+
+    fun onMovieSelected(movie: Movie) {
+        selectedMovie.value = MovieDetailsState.Loading
+        viewModelScope.launch {
+            val movieDetails = MoviesRepository.getMovieDetails(movie)
+            selectedMovie.value = MovieDetailsState.Data(movieDetails)
+        }
+    }
+
+    sealed class MovieListState {
+        data class Data(val movies: List<Movie>): MovieListState()
+        object Empty: MovieListState()
+        object Loading: MovieListState()
+    }
+
+    sealed class MovieDetailsState {
+        data class Data(val movie: Movie): MovieDetailsState()
+        object Loading: MovieDetailsState()
     }
 }

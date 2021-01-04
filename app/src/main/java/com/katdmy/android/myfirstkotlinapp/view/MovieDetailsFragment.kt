@@ -2,9 +2,8 @@ package com.katdmy.android.myfirstkotlinapp.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +18,10 @@ import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+
+    private var loadingSpinner: ProgressBar? = null
+    private var emptyDataTv: TextView? = null
+    private var scrollView: NestedScrollView? = null
 
     private var backListener: BackClickListener? = null
     private var recycler: RecyclerView? = null
@@ -39,7 +42,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         setUpAdapter()
         setUpClickListener()
 
-        viewModel.selected.observe(viewLifecycleOwner, this::fillMovieDetails)
+        viewModel.selectedMovie.observe(viewLifecycleOwner, this::onMovieDetailsStateChange)
     }
 
     override fun onDestroyView() {
@@ -55,6 +58,9 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         reviewsTextView = null
         overviewTextView = null
         backdrop = null
+        loadingSpinner = null
+        emptyDataTv = null
+        scrollView = null
         super.onDestroyView()
     }
 
@@ -69,6 +75,9 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         reviewsTextView = view.findViewById(R.id.reviews_name)
         overviewTextView = view.findViewById(R.id.overview)
         backdrop = view.findViewById(R.id.orig)
+        loadingSpinner = view.findViewById(R.id.loading_spinner)
+        emptyDataTv = view.findViewById(R.id.empty_data_tv)
+        scrollView = view.findViewById(R.id.scroll_view)
     }
 
     private fun setUpAdapter() {
@@ -80,6 +89,22 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     private fun setUpClickListener() {
         backListener = context as? BackClickListener
         backButton?.setOnClickListener { backListener?.detailsBack() }
+    }
+
+    private fun onMovieDetailsStateChange(movieDetails: MoviesViewModel.MovieDetailsState) {
+        when (movieDetails) {
+            is MoviesViewModel.MovieDetailsState.Data -> {
+                scrollView?.visibility = View.VISIBLE
+                loadingSpinner?.visibility = View.GONE
+                emptyDataTv?.visibility = View.GONE
+                fillMovieDetails(movieDetails.movie)
+            }
+            MoviesViewModel.MovieDetailsState.Loading -> {
+                scrollView?.visibility = View.GONE
+                loadingSpinner?.visibility = View.VISIBLE
+                emptyDataTv?.visibility = View.GONE
+            }
+        }
     }
 
     private fun fillMovieDetails(movie: Movie) {

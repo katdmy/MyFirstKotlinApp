@@ -14,15 +14,15 @@ interface TmdbApi {
     suspend fun getPopularMovies(@Query("api_key") apiKey: String) : MoviesJsonList
 
     @GET("movie/now_playing?language=en-US&page=1")
-    suspend fun getNowPlayingMovies(@Query("api_key") apiKey: String) : List<Movie>
+    suspend fun getNowPlayingMovies(@Query("api_key") apiKey: String) : MoviesJsonList
 
     @GET("movie/top_rated?language=en-US&page=1")
-    suspend fun getTopRatedMovies(@Query("api_key") apiKey: String) : List<Movie>
+    suspend fun getTopRatedMovies(@Query("api_key") apiKey: String) : MoviesJsonList
 
     @GET("movie/upcoming?language=en-US&page=1")
-    suspend fun getUpcomingMovies(@Query("api_key") apiKey: String) : List<Movie>
+    suspend fun getUpcomingMovies(@Query("api_key") apiKey: String) : MoviesJsonList
 
-    @GET("movie/{movie_id}") //GET/movie/{movie_id} - for receiving movie details information.
+    @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
        @Path("movie_id") movieId: Int,
        @Query("api_key") apiKey: String
@@ -37,6 +37,4 @@ interface TmdbApi {
     @GET("genre/movie/list")
     suspend fun getGenresList(@Query("api_key") apiKey: String) : GenresJsonList
 
-     //GET/person/{person_id} - for receiving information about some people.
-     //GET/search/movie
  }

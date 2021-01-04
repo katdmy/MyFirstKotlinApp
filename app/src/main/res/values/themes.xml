@@ -98,4 +98,9 @@
         <item name="android:textColor">#565665</item>
     </style>
 
+    <style name="tabs">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

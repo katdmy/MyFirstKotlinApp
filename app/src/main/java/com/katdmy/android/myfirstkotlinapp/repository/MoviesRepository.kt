@@ -2,6 +2,7 @@ package com.katdmy.android.myfirstkotlinapp.repository
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.katdmy.android.myfirstkotlinapp.model.Actor
 import com.katdmy.android.myfirstkotlinapp.model.Genre
 import com.katdmy.android.myfirstkotlinapp.model.Movie
@@ -18,13 +19,20 @@ object MoviesRepository {
 
     private val API_KEY = "37d023007af6569b99e1ba7cad35a94b"
 
-    suspend fun getPopularMovies() : List<Movie> {
+    suspend fun getPopularMovies() : List<Movie> = processMoviesList(tmdbApi.getPopularMovies(API_KEY))
+
+    suspend fun getNowPlayingMovies() : List<Movie> = processMoviesList(tmdbApi.getNowPlayingMovies(API_KEY))
+
+    suspend fun getTopRatedMovies() : List<Movie> = processMoviesList(tmdbApi.getTopRatedMovies(API_KEY))
+
+    suspend fun getUpcomingMovies() : List<Movie> = processMoviesList(tmdbApi.getUpcomingMovies(API_KEY))
+
+    private suspend fun processMoviesList(jsonMovies: MoviesJsonList): List<Movie> {
         val conf = tmdbApi.getConfiguration(API_KEY)
         val jsonGenres = tmdbApi.getGenresList(API_KEY).genres ?: emptyList()
         val genres = jsonGenres.map { Genre(id = it.id ?: 0, name = it.name ?: "") }
         val genresMap = genres.associateBy { it.id }
-        val jsonMovies = tmdbApi.getPopularMovies(API_KEY).results ?: emptyList()
-        return jsonMovies.map { jsonMovie ->
+        return jsonMovies.results.map { jsonMovie ->
             @Suppress("unused")
             Movie(
                 id = jsonMovie.id ?: 0,
@@ -41,16 +49,6 @@ object MoviesRepository {
             )
         }
     }
-
-    suspend fun getNowPlayingMovies() = tmdbApi.getNowPlayingMovies(API_KEY)
-
-    suspend fun getTopRatedMovies() = tmdbApi.getTopRatedMovies(API_KEY)
-
-    suspend fun getUpcomingMovies() = tmdbApi.getUpcomingMovies(API_KEY)
-
-/*    private suspend fun getMovies(getMoviesList: () -> MoviesJsonList): List<Movie> {
-
-    }*/
 
     suspend fun getMovieDetails(movie : Movie) : Movie {
         val conf = tmdbApi.getConfiguration(API_KEY)

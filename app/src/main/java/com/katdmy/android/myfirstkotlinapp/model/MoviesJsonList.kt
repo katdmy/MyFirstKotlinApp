@@ -8,7 +8,7 @@ data class MoviesJsonList(
 	val page: Int? = null,
 	@SerialName("total_pages")
 	val totalPages: Int? = null,
-	val results: List<ResultsItem>? = null,
+	val results: List<ResultsItem> = emptyList(),
 	@SerialName("total_results")
 	val totalResults: Int? = null
 )
