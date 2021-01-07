@@ -18,7 +18,7 @@ import com.katdmy.android.myfirstkotlinapp.model.Movie
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
-    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory() }
+    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireActivity()) }
 
     private var searchTi: TextInputLayout? = null
     private var loadingSpinner: ProgressBar? = null
@@ -34,11 +34,25 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         setUpAdapter()
         setUpClickListener()
 
-        viewModel.onPopularMoviesListRequested()
+        if (viewModel.isEmptyInstanceState()) {
+            viewModel.onPopularMoviesListRequested()
+        } else {
+            searchTi?.editText?.setText(viewModel.getStringStateParam("STATE_SEARCH"))
+
+            val tabIndex = viewModel.getIntStateParam("STATE_TAB")
+            val tab: TabLayout.Tab? = tabLayout?.getTabAt(tabIndex)
+            tab?.select()
+
+            adapter?.setData(viewModel.getListStateParam("STATE_MOVIES"))
+        }
         viewModel.getMoviesData().observe(viewLifecycleOwner, this::updateAdapter)
     }
 
     override fun onDestroyView() {
+        viewModel.setInstanceStateParam("STATE_SEARCH", searchTi?.editText?.text.toString())
+        viewModel.setInstanceStateParam("STATE_TAB", tabLayout?.selectedTabPosition ?: 0)
+        viewModel.setListStateParam("STATE_MOVIES", adapter?.getData())
+
         recycler?.adapter = null
         recycler = null
         tabLayout = null
@@ -85,7 +99,16 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                when (tab?.text) {
+                    getString(R.string.tab_label_popular) -> viewModel.onPopularMoviesListRequested()
+                    getString(R.string.tab_label_now_playing) -> viewModel.onNowPlayingMoviesListRequested()
+                    getString(R.string.tab_label_top_rated) -> viewModel.onTopRatedMoviesListRequested()
+                    getString(R.string.tab_label_upcoming) -> viewModel.onUpcomingMoviesListRequested()
+                    else -> return
+                }
+                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+            }
         })
     }
 

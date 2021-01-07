@@ -35,6 +35,8 @@ class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit) :
         movies = newMovies
         notifyDataSetChanged()
     }
+
+    fun getData() = movies
 }
 
 class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
