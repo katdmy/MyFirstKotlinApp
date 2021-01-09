@@ -23,9 +23,9 @@ class MoviesRepository(private val tmdbApi: TmdbApi) {
     suspend fun searchMovies(query: String): List<Movie> =
         processMoviesList(tmdbApi.searchMovies(query))
 
-    suspend fun getMovieDetails(movie: Movie): Movie {
+    suspend fun getMovieDetails(oldData: Movie): Movie {
         val conf = tmdbApi.getConfiguration()
-        val jsonActors = tmdbApi.getMovieActors(movie.id).cast ?: emptyList()
+        val jsonActors = tmdbApi.getMovieActors(oldData.id).cast ?: emptyList()
         val actors = jsonActors.map { jsonActor ->
             @Suppress("unused")
             Actor(
@@ -34,8 +34,19 @@ class MoviesRepository(private val tmdbApi: TmdbApi) {
                 picture = conf.images?.secureBaseUrl + conf.images?.profileSizes?.get(1) + jsonActor.profilePath
             )
         }
-        movie.actors = actors
-        return movie
+        return Movie(
+            oldData.id,
+            oldData.title,
+            oldData.overview,
+            oldData.poster,
+            oldData.backdrop,
+            oldData.ratings,
+            oldData.numberOfRatings,
+            oldData.minimumAge,
+            oldData.runtime,
+            oldData.genres,
+            actors
+        )
     }
 
     private suspend fun processMoviesList(jsonMovies: MoviesJsonList): List<Movie> {
