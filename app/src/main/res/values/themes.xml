@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.MyFirstKotlinApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/violet</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -96,6 +96,11 @@
     <style name="length_list">
         <item name="android:textSize">8sp</item>
         <item name="android:textColor">#565665</item>
+    </style>
+
+    <style name="tabs">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
 </resources>

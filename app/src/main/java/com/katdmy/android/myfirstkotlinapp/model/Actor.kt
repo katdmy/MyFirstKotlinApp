@@ -1,4 +1,4 @@
-package com.katdmy.android.myfirstkotlinapp.data
+package com.katdmy.android.myfirstkotlinapp.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -1,7 +1,6 @@
-package com.katdmy.android.myfirstkotlinapp.data
+package com.katdmy.android.myfirstkotlinapp.model
 
 import android.content.Context
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName

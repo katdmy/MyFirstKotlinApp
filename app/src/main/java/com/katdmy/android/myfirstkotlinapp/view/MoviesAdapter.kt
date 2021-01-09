@@ -1,4 +1,4 @@
-package com.katdmy.android.myfirstkotlinapp.movieslist
+package com.katdmy.android.myfirstkotlinapp.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.katdmy.android.myfirstkotlinapp.R
-import com.katdmy.android.myfirstkotlinapp.data.Movie
+import com.katdmy.android.myfirstkotlinapp.model.Movie
 
-class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit): RecyclerView.Adapter<MoviesViewHolder>() {
+class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit) :
+    RecyclerView.Adapter<MoviesViewHolder>() {
     private var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -34,9 +35,11 @@ class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit): Recycler
         movies = newMovies
         notifyDataSetChanged()
     }
+
+    fun getData() = movies
 }
 
-class MoviesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val image: ImageView = itemView.findViewById(R.id.movie_bg)
     private val pg: TextView = itemView.findViewById(R.id.pg)
     private val like: ImageView = itemView.findViewById(R.id.like)

@@ -17,5 +17,11 @@
     <string name="tag_list">Action, Adventure, Drama</string>
     <string name="name_list">Avengers: End Game</string>
     <string name="length_list">137 min</string>
+    <string name="tab_label_popular">Popular</string>
+    <string name="tab_label_now_playing">Now playing</string>
+    <string name="tab_label_top_rated">Top rated</string>
+    <string name="tab_label_upcoming">Upcoming</string>
+    <string name="search_movies">Search movies</string>
+    <string name="no_data_loaded">No data loaded</string>
 
 </resources>
