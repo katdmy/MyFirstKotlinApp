@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.katdmy.android.myfirstkotlinapp.MovieApplication
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.model.Movie
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
@@ -17,7 +18,9 @@ import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
 
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
-    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireActivity()) }
+    private val viewModel: MoviesViewModel by activityViewModels {
+        ViewModelFactory(requireActivity(), requireActivity().application as MovieApplication)
+    }
 
     private var loadingSpinner: ProgressBar? = null
     private var emptyDataTv: TextView? = null

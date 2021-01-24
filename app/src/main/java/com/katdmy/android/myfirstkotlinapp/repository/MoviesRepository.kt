@@ -4,9 +4,14 @@ import com.katdmy.android.myfirstkotlinapp.model.Actor
 import com.katdmy.android.myfirstkotlinapp.model.Genre
 import com.katdmy.android.myfirstkotlinapp.model.Movie
 import com.katdmy.android.myfirstkotlinapp.model.MoviesJsonList
+import com.katdmy.android.myfirstkotlinapp.retrofit.RetrofitClient
 import com.katdmy.android.myfirstkotlinapp.retrofit.TmdbApi
+import com.katdmy.android.myfirstkotlinapp.room.MoviesDao
 
-class MoviesRepository(private val tmdbApi: TmdbApi) {
+class MoviesRepository(
+    private val tmdbApi: TmdbApi,
+    private val moviesDao: MoviesDao
+) {
 
     suspend fun getPopularMovies(): List<Movie> =
         processMoviesList(tmdbApi.getPopularMovies())

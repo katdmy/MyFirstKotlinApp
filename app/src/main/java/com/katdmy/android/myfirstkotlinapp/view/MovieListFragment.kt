@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
+import com.katdmy.android.myfirstkotlinapp.MovieApplication
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
 import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
@@ -18,7 +19,9 @@ import com.katdmy.android.myfirstkotlinapp.model.Movie
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
-    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireActivity()) }
+    private val viewModel: MoviesViewModel by activityViewModels {
+        ViewModelFactory(requireActivity(), requireActivity().application as MovieApplication)
+    }
 
     private var searchTi: TextInputLayout? = null
     private var loadingSpinner: ProgressBar? = null
