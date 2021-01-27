@@ -19,9 +19,7 @@ import com.katdmy.android.myfirstkotlinapp.model.Movie
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
-    private val viewModel: MoviesViewModel by activityViewModels {
-        ViewModelFactory(requireActivity(), requireActivity().application as MovieApplication)
-    }
+    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireActivity()) }
 
     private var searchTi: TextInputLayout? = null
     private var loadingSpinner: ProgressBar? = null
@@ -37,9 +35,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         setUpAdapter()
         setUpClickListener()
 
-        if (viewModel.isEmptyInstanceState()) {
-            viewModel.onPopularMoviesListRequested()
-        } else {
+        if (viewModel.isNotEmptyInstanceState()) {
             searchTi?.editText?.setText(viewModel.getStringStateParam("STATE_SEARCH"))
 
             val tabIndex = viewModel.getIntStateParam("STATE_TAB")
@@ -47,8 +43,9 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
             tab?.select()
 
             adapter?.setData(viewModel.getListStateParam("STATE_MOVIES"))
+        } else {
+            viewModel.getMoviesData().observe(viewLifecycleOwner, this::updateAdapter)
         }
-        viewModel.getMoviesData().observe(viewLifecycleOwner, this::updateAdapter)
     }
 
     override fun onDestroyView() {
@@ -84,32 +81,20 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         searchTi?.setEndIconOnClickListener {
             val queryString = searchTi?.editText?.text.toString()
             if (queryString.isNotEmpty()) {
-                viewModel.onSearchMoviesRequested(queryString)
+                viewModel.onMoviesListRequested("Search", queryString)
                 viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
         }
         movieClickListener = context as? MovieFragmentClickListener
         tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.text) {
-                    getString(R.string.tab_label_popular) -> viewModel.onPopularMoviesListRequested()
-                    getString(R.string.tab_label_now_playing) -> viewModel.onNowPlayingMoviesListRequested()
-                    getString(R.string.tab_label_top_rated) -> viewModel.onTopRatedMoviesListRequested()
-                    getString(R.string.tab_label_upcoming) -> viewModel.onUpcomingMoviesListRequested()
-                    else -> return
-                }
+                viewModel.onMoviesListRequested(tab?.text.toString())
                 viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                when (tab?.text) {
-                    getString(R.string.tab_label_popular) -> viewModel.onPopularMoviesListRequested()
-                    getString(R.string.tab_label_now_playing) -> viewModel.onNowPlayingMoviesListRequested()
-                    getString(R.string.tab_label_top_rated) -> viewModel.onTopRatedMoviesListRequested()
-                    getString(R.string.tab_label_upcoming) -> viewModel.onUpcomingMoviesListRequested()
-                    else -> return
-                }
+                viewModel.onMoviesListRequested(tab?.text.toString())
                 viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
         })

@@ -28,5 +28,7 @@ data class MovieEntity(
     @ColumnInfo(name = MoviesContract.MovieEntry.COLUMN_MOVIE_MINIMUM_AGE)
     val minimumAge: Int,
     @ColumnInfo(name = MoviesContract.MovieEntry.COLUMN_MOVIE_RUNTIME)
-    val runtime: Int
+    val runtime: Int,
+    @ColumnInfo(name = MoviesContract.MovieEntry.COLUMN_MOVIE_GENRES)
+    val genres: String
 )

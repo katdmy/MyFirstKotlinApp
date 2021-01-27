@@ -1,37 +1,41 @@
 package com.katdmy.android.myfirstkotlinapp.repository
 
-import com.katdmy.android.myfirstkotlinapp.model.Actor
-import com.katdmy.android.myfirstkotlinapp.model.Genre
-import com.katdmy.android.myfirstkotlinapp.model.Movie
-import com.katdmy.android.myfirstkotlinapp.model.MoviesJsonList
-import com.katdmy.android.myfirstkotlinapp.retrofit.RetrofitClient
+import com.katdmy.android.myfirstkotlinapp.model.*
 import com.katdmy.android.myfirstkotlinapp.retrofit.TmdbApi
 import com.katdmy.android.myfirstkotlinapp.room.MoviesDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class MoviesRepository(
     private val tmdbApi: TmdbApi,
-    private val moviesDao: MoviesDao
+    private val moviesDao: MoviesDao,
+    private val modelsMapper: ModelsMapper
 ) {
 
-    suspend fun getPopularMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getPopularMovies())
-
-    suspend fun getNowPlayingMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getNowPlayingMovies())
-
-    suspend fun getTopRatedMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getTopRatedMovies())
-
-    suspend fun getUpcomingMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getUpcomingMovies())
-
-    suspend fun searchMovies(query: String): List<Movie> =
-        processMoviesList(tmdbApi.searchMovies(query))
+    suspend fun loadMovies(
+        mode: String,
+        searchString: String
+    ): List<Movie> {
+        val movies =  when (mode) {
+            "Popular" -> processMoviesList(tmdbApi.getPopularMovies())
+            "Now playing" -> processMoviesList(tmdbApi.getNowPlayingMovies())
+            "Top rated" -> processMoviesList(tmdbApi.getTopRatedMovies())
+            "Upcoming" -> processMoviesList(tmdbApi.getUpcomingMovies())
+            "Search" -> processMoviesList(tmdbApi.searchMovies(searchString))
+            else -> emptyList()
+        }
+        moviesDao.replaceMovies(
+            modelsMapper.moviesFromModelToRoom(movies)
+        )
+        return movies
+    }
 
     suspend fun getMovieDetails(oldData: Movie): Movie {
         val conf = tmdbApi.getConfiguration()
         val jsonActors = tmdbApi.getMovieActors(oldData.id).cast ?: emptyList()
-        val actors = jsonActors.map { jsonActor ->
+        val actors = jsonActors.subList(0,10).map { jsonActor ->
             @Suppress("unused")
             Actor(
                 id = jsonActor.id ?: 0,
@@ -39,6 +43,9 @@ class MoviesRepository(
                 picture = conf.images?.secureBaseUrl + conf.images?.profileSizes?.get(1) + jsonActor.profilePath
             )
         }
+        moviesDao.replaceActors(
+            modelsMapper.actorsFromModelToRoom(actors)
+        )
         return Movie(
             oldData.id,
             oldData.title,
@@ -52,6 +59,11 @@ class MoviesRepository(
             oldData.genres,
             actors
         )
+    }
+
+    suspend fun observeMovieList(): Flow<List<Movie>> = withContext(Dispatchers.IO) {
+        return@withContext moviesDao.getAllMovies()
+            .map { modelsMapper.moviesFromRoomToModel(it) }
     }
 
     private suspend fun processMoviesList(jsonMovies: MoviesJsonList): List<Movie> {

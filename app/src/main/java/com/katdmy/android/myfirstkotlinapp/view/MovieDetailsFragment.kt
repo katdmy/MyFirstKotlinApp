@@ -18,9 +18,7 @@ import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
 
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
-    private val viewModel: MoviesViewModel by activityViewModels {
-        ViewModelFactory(requireActivity(), requireActivity().application as MovieApplication)
-    }
+    private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireActivity()) }
 
     private var loadingSpinner: ProgressBar? = null
     private var emptyDataTv: TextView? = null

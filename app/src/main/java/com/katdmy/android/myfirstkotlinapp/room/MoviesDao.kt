@@ -1,19 +1,42 @@
 package com.katdmy.android.myfirstkotlinapp.room
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoviesDao {
 
     @Query("SELECT * FROM movies ")
-    suspend fun getAllMovies(): List<MovieEntity>
+    fun getAllMovies(): Flow<List<MovieEntity>>
 
-    @Delete
+    @Query("DELETE FROM movies")
     suspend fun deleteAllMovies()
 
     @Insert
-    suspend fun insertMovie(movie: MovieEntity)
+    suspend fun insertAllMovies(movies: List<MovieEntity>)
+
+    @Transaction
+    suspend fun replaceMovies(movies: List<MovieEntity>) {
+        deleteAllMovies()
+        insertAllMovies(movies)
+    }
+
+
+    @Query("SELECT * FROM actors")
+    fun getAllActors(): Flow<List<ActorEntity>>
+
+    @Query("DELETE FROM actors")
+    suspend fun deleteAllActors()
+
+    @Insert
+    suspend fun insertAllActors(actors: List<ActorEntity>)
+
+    @Transaction
+    suspend fun replaceActors(actors: List<ActorEntity>) {
+        deleteAllActors()
+        insertAllActors(actors)
+    }
 }

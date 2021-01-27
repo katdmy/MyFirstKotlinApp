@@ -3,6 +3,7 @@ package com.katdmy.android.myfirstkotlinapp.viewmodel
 import androidx.lifecycle.*
 import com.katdmy.android.myfirstkotlinapp.model.Movie
 import com.katdmy.android.myfirstkotlinapp.repository.MoviesRepository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(
@@ -13,60 +14,29 @@ class MoviesViewModel(
     val selectedMovie = MutableLiveData<MovieDetailsState>()
     private var moviesData = MutableLiveData<MovieListState>()
 
+    init {
+        moviesData.value = MovieListState.Loading
+        viewModelScope.launch {
+            repo.observeMovieList().collect { moviesList ->
+                moviesData.value = if (moviesList.isNotEmpty()) {
+                    MovieListState.Data(moviesList)
+                } else {
+                    MovieListState.Empty
+                }
+            }
+        }
+        viewModelScope.launch { repo.loadMovies("Popular", "") }
+    }
+
     fun getMoviesData(): LiveData<MovieListState> = moviesData
 
-    fun onPopularMoviesListRequested() {
-        moviesData.value = MovieListState.Loading
+    fun onMoviesListRequested(
+        mode: String,
+        searchString: String = ""
+    ) {
+//        moviesData.value = MovieListState.Loading
         viewModelScope.launch {
-            val movies = repo.getPopularMovies()
-            moviesData.value = if (movies.isEmpty()) {
-                MovieListState.Empty
-            } else {
-                MovieListState.Data(movies)
-            }
-        }
-    }
-
-    fun onNowPlayingMoviesListRequested() {
-        moviesData.value = MovieListState.Loading
-        viewModelScope.launch {
-            val movies = repo.getNowPlayingMovies()
-            moviesData.value = if (movies.isEmpty()) {
-                MovieListState.Empty
-            } else {
-                MovieListState.Data(movies)
-            }
-        }
-    }
-
-    fun onTopRatedMoviesListRequested() {
-        moviesData.value = MovieListState.Loading
-        viewModelScope.launch {
-            val movies = repo.getTopRatedMovies()
-            moviesData.value = if (movies.isEmpty()) {
-                MovieListState.Empty
-            } else {
-                MovieListState.Data(movies)
-            }
-        }
-    }
-
-    fun onUpcomingMoviesListRequested() {
-        moviesData.value = MovieListState.Loading
-        viewModelScope.launch {
-            val movies = repo.getUpcomingMovies()
-            moviesData.value = if (movies.isEmpty()) {
-                MovieListState.Empty
-            } else {
-                MovieListState.Data(movies)
-            }
-        }
-    }
-
-    fun onSearchMoviesRequested(query: String) {
-        moviesData.value = MovieListState.Loading
-        viewModelScope.launch {
-            val movies = repo.searchMovies(query)
+            val movies = repo.loadMovies(mode, searchString)
             moviesData.value = if (movies.isEmpty()) {
                 MovieListState.Empty
             } else {
@@ -83,7 +53,7 @@ class MoviesViewModel(
         }
     }
 
-    fun isEmptyInstanceState() = !handle.contains("STATE_MOVIES")
+    fun isNotEmptyInstanceState() = handle.contains("STATE_MOVIES")
     fun getIntStateParam(key: String): Int = handle.get(key) ?: 0
     fun getStringStateParam(key: String): String = handle.get(key) ?: ""
     fun getListStateParam(key: String): List<Movie> = handle.get(key) ?: emptyList()
@@ -108,3 +78,4 @@ class MoviesViewModel(
         object Loading : MovieDetailsState()
     }
 }
+
