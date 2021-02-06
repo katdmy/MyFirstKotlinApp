@@ -16,6 +16,7 @@ import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
 import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
 import com.katdmy.android.myfirstkotlinapp.model.Movie
+import com.katdmy.android.myfirstkotlinapp.repository.MoviesPagedAdapter
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
@@ -26,7 +27,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
     private var emptyDataTv: TextView? = null
     private var tabLayout: TabLayout? = null
     private var recycler: RecyclerView? = null
-    private var adapter: MoviesAdapter? = null
+    private var adapter: MoviesPagedAdapter? = null
     private var movieClickListener: MovieFragmentClickListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,16 +43,18 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
             val tab: TabLayout.Tab? = tabLayout?.getTabAt(tabIndex)
             tab?.select()
 
-            adapter?.setData(viewModel.getListStateParam("STATE_MOVIES"))
-        } else {
-            viewModel.getMoviesData().observe(viewLifecycleOwner, this::updateAdapter)
-        }
+            //adapter?.setData(viewModel.getListStateParam("STATE_MOVIES"))
+        } //else {
+            //viewModel.getMoviesData().observe(viewLifecycleOwner, this::updateAdapter)
+        //}
+        viewModel.pagedMovies.observe(viewLifecycleOwner, { moviesPagedList -> adapter?.setList(moviesPagedList) } )
+
     }
 
     override fun onDestroyView() {
         viewModel.setInstanceStateParam("STATE_SEARCH", searchTi?.editText?.text.toString())
         viewModel.setInstanceStateParam("STATE_TAB", tabLayout?.selectedTabPosition ?: 0)
-        viewModel.setListStateParam("STATE_MOVIES", adapter?.getData())
+        //viewModel.setListStateParam("STATE_MOVIES", adapter?.getData())
 
         recycler?.adapter = null
         recycler = null
@@ -73,7 +76,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private fun setUpAdapter() {
         recycler?.layoutManager = GridLayoutManager(activity, 2)
-        adapter = MoviesAdapter { movie: Movie -> movieClickListener(movie) }
+        adapter = MoviesPagedAdapter { movie: Movie -> movieClickListener(movie) }
         recycler?.adapter = adapter
     }
 
@@ -82,25 +85,25 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
             val queryString = searchTi?.editText?.text.toString()
             if (queryString.isNotEmpty()) {
                 viewModel.onMoviesListRequested("Search", queryString)
-                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+                //viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
         }
         movieClickListener = context as? MovieFragmentClickListener
         tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 viewModel.onMoviesListRequested(tab?.text.toString())
-                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+                //viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 viewModel.onMoviesListRequested(tab?.text.toString())
-                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+                //viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
             }
         })
     }
 
-    private fun updateAdapter(moviesData: MoviesViewModel.MovieListState) {
+/*    private fun updateAdapter(moviesData: MoviesViewModel.MovieListState) {
         when (moviesData) {
             is MoviesViewModel.MovieListState.Data -> {
                 adapter?.setData(moviesData.movies)
@@ -118,7 +121,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
                 emptyDataTv?.visibility = View.VISIBLE
             }
         }
-    }
+    }*/
 
     //creating method to make it look simpler
     private fun movieClickListener(movie: Movie) {

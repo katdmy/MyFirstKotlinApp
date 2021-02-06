@@ -1,9 +1,12 @@
 package com.katdmy.android.myfirstkotlinapp.room
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import com.katdmy.android.myfirstkotlinapp.model.Movie
+import com.katdmy.android.myfirstkotlinapp.paging.MovieDataSourceFactory
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -39,4 +42,7 @@ interface MoviesDao {
         deleteAllActors()
         insertAllActors(actors)
     }
+
+/*    @Query("SELECT * FROM movies ")
+    fun pagedMovies(): MovieDataSourceFactory*/
 }

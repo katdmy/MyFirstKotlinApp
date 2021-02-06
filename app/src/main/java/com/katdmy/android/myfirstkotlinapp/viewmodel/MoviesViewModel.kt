@@ -1,10 +1,13 @@
 package com.katdmy.android.myfirstkotlinapp.viewmodel
 
 import androidx.lifecycle.*
+import androidx.paging.*
 import com.katdmy.android.myfirstkotlinapp.model.Movie
+import com.katdmy.android.myfirstkotlinapp.paging.MovieDataSourceFactory
 import com.katdmy.android.myfirstkotlinapp.repository.MoviesRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 
 class MoviesViewModel(
     private val handle: SavedStateHandle,
@@ -77,5 +80,33 @@ class MoviesViewModel(
         data class Data(val movie: Movie) : MovieDetailsState()
         object Loading : MovieDetailsState()
     }
+
+
+    // TODO: Paging
+    private val movieDataSource = MovieDataSourceFactory(repo = repo, scope = viewModelScope)
+
+    val pagedMovies: LiveData<PagedList<Movie>> = LivePagedListBuilder(movieDataSource, pagedListConfig()).build()
+
+    private fun pagedListConfig() = PagedList.Config.Builder()
+        .setInitialLoadSizeHint(4)
+        .setEnablePlaceholders(true)
+        .setPageSize(20)
+        .build()
+
+
+    /*        val moviePagingConfig = Config (
+            pageSize = 4,
+            prefetchDistance = 16,
+            enablePlaceholders = true
+            )
+    val moviesDataSource: DataSource.Factory<Int, Movie> = repo.getPagedMovies()
+
+    val ioExecutor = Executors.newSingleThreadExecutor()
+
+    val moviesList = moviesDataSource.toLiveData(
+        pagingConfig = moviePagingConfig,
+        executor = ioExecutor
+    )*/
+
 }
 
