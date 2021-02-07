@@ -9,15 +9,14 @@ import androidx.room.PrimaryKey
     tableName = MoviesContract.ActorEntry.TABLE_NAME,
     indices = [Index(MoviesContract.ActorEntry.COLUMN_ACTOR_ID)]
 )
-data class ActorEntity (
+data class ActorEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = MoviesContract.ActorEntry.COLUMN_ACTOR_ID)
     val id: Int = 0,
     @ColumnInfo(name = MoviesContract.ActorEntry.COLUMN_ACTOR_NAME)
     val name: String,
     @ColumnInfo(name = MoviesContract.ActorEntry.COLUMN_ACTOR_PICTURE)
-    val picture: String
-    /*,
+    val picture: String,
     @ColumnInfo(name = MoviesContract.ActorEntry.COLUMN_ACTOR_MOVIE_ID)
-    val movieId: Int*/
+    val movieId: Int
 )

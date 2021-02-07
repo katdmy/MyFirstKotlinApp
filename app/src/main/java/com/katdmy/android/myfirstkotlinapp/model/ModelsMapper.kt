@@ -8,22 +8,20 @@ import kotlinx.serialization.json.Json
 
 class ModelsMapper {
 
-    fun moviesFromRoomToModel(movieEntities: List<MovieEntity>): List<Movie> {
-        return movieEntities.map {
-            Movie(
-                id = it.id,
-                title = it.title,
-                overview = it.overview,
-                poster = it.poster,
-                backdrop = it.backdrop,
-                ratings = it.ratings,
-                numberOfRatings = it.numberOfRatings,
-                minimumAge = it.minimumAge,
-                runtime = it.runtime,
-                genres = Json.decodeFromString(it.genres),
-                actors = emptyList()
-            )
-        }
+    fun movieFromRoomToModel(movieEntity: MovieEntity): Movie {
+        return Movie(
+            id = movieEntity.id,
+            title = movieEntity.title,
+            overview = movieEntity.overview,
+            poster = movieEntity.poster,
+            backdrop = movieEntity.backdrop,
+            ratings = movieEntity.ratings,
+            numberOfRatings = movieEntity.numberOfRatings,
+            minimumAge = movieEntity.minimumAge,
+            runtime = movieEntity.runtime,
+            genres = Json.decodeFromString(movieEntity.genres),
+            actors = emptyList()
+        )
     }
 
     fun moviesFromModelToRoom(movies: List<Movie>): List<MovieEntity> {
@@ -39,27 +37,25 @@ class ModelsMapper {
                 minimumAge = it.minimumAge,
                 runtime = it.runtime,
                 genres = Json.encodeToString(it.genres)
-                //it.genres.joinToString(prefix = "[", postfix = "]")
             )
         }
     }
 
-    fun actorsFromRoomToModel(movieEntities: List<ActorEntity>): List<Actor> {
-        return movieEntities.map {
-            Actor(
-                id = it.id,
-                name = it.name,
-                picture = it.picture
-            )
-        }
+    fun actorFromRoomToModel(actorEntity: ActorEntity): Actor {
+        return Actor(
+            id = actorEntity.id,
+            name = actorEntity.name,
+            picture = actorEntity.picture
+        )
     }
 
-    fun actorsFromModelToRoom(movies: List<Actor>): List<ActorEntity> {
-        return movies.map {
+    fun actorsFromModelToRoom(actors: List<Actor>, movieId: Int): List<ActorEntity> {
+        return actors.map {
             ActorEntity(
                 id = it.id,
                 name = it.name,
-                picture = it.picture
+                picture = it.picture,
+                movieId = movieId
             )
         }
     }

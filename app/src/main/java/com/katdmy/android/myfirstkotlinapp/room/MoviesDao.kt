@@ -1,19 +1,15 @@
 package com.katdmy.android.myfirstkotlinapp.room
 
-import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.katdmy.android.myfirstkotlinapp.model.Movie
-import com.katdmy.android.myfirstkotlinapp.paging.MovieDataSourceFactory
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoviesDao {
 
     @Query("SELECT * FROM movies ")
-    fun getAllMovies(): Flow<List<MovieEntity>>
+    fun getAllMovies(): List<MovieEntity>
 
     @Query("DELETE FROM movies")
     suspend fun deleteAllMovies()
@@ -28,8 +24,8 @@ interface MoviesDao {
     }
 
 
-    @Query("SELECT * FROM actors")
-    fun getAllActors(): Flow<List<ActorEntity>>
+    @Query("SELECT * FROM actors WHERE movie_id = :movieId")
+    fun getAllActors(movieId: Int): List<ActorEntity>
 
     @Query("DELETE FROM actors")
     suspend fun deleteAllActors()
@@ -42,7 +38,4 @@ interface MoviesDao {
         deleteAllActors()
         insertAllActors(actors)
     }
-
-/*    @Query("SELECT * FROM movies ")
-    fun pagedMovies(): MovieDataSourceFactory*/
 }

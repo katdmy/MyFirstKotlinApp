@@ -11,7 +11,8 @@ object MoviesContract {
         const val TABLE_NAME = "movies"
 
         //COLUMNS:
-        const val COLUMN_MOVIE_ID = BaseColumns._ID
+        const val COLUMN_MOVIE_ROOM_ID = BaseColumns._ID
+        const val COLUMN_MOVIE_ID = "id"
         const val COLUMN_MOVIE_TITLE = "title"
         const val COLUMN_MOVIE_OVERVIEW = "overview"
         const val COLUMN_MOVIE_POSTER = "poster"
@@ -21,9 +22,6 @@ object MoviesContract {
         const val COLUMN_MOVIE_MINIMUM_AGE = "minimumAge"
         const val COLUMN_MOVIE_RUNTIME = "runtime"
         const val COLUMN_MOVIE_GENRES = "genres"
-
-//        val genres: List<Genre>,
-//        val actors: List<Actor>
     }
 
     object ActorEntry {
@@ -34,6 +32,6 @@ object MoviesContract {
         const val COLUMN_ACTOR_ID = BaseColumns._ID
         const val COLUMN_ACTOR_NAME = "name"
         const val COLUMN_ACTOR_PICTURE = "picture"
-        const val COLUMN_ACTOR_MOVIE_ID = "movieId"
+        const val COLUMN_ACTOR_MOVIE_ID = "movie_id"
     }
 }
