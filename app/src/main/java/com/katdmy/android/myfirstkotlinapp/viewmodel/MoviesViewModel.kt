@@ -1,18 +1,24 @@
 package com.katdmy.android.myfirstkotlinapp.viewmodel
 
+import android.content.SharedPreferences
 import androidx.lifecycle.*
 import com.katdmy.android.myfirstkotlinapp.model.Movie
 import com.katdmy.android.myfirstkotlinapp.repository.MoviesRepository
 
 class MoviesViewModel(
     private val handle: SavedStateHandle,
-    private val repo: MoviesRepository
+    private val repo: MoviesRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     lateinit var selectedMovie: Movie
     var moviesData: LiveData<MovieListState>
 
     init {
+        val editor = sharedPreferences.edit()
+        editor.putString("mode", "Popular")
+        editor.putString("searchString", "")
+        editor.apply()
         moviesData = repo.loadMovies("Popular", "")
     }
 
@@ -20,6 +26,10 @@ class MoviesViewModel(
         mode: String,
         searchString: String = ""
     ) {
+        val editor = sharedPreferences.edit()
+        editor.putString("mode", mode)
+        editor.putString("searchString", searchString)
+        editor.apply()
         moviesData = repo.loadMovies(mode, searchString)
     }
 
