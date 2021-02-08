@@ -1,52 +1,65 @@
 package com.katdmy.android.myfirstkotlinapp.repository
 
-import com.katdmy.android.myfirstkotlinapp.model.Actor
-import com.katdmy.android.myfirstkotlinapp.model.Genre
-import com.katdmy.android.myfirstkotlinapp.model.Movie
-import com.katdmy.android.myfirstkotlinapp.model.MoviesJsonList
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import com.katdmy.android.myfirstkotlinapp.model.*
 import com.katdmy.android.myfirstkotlinapp.retrofit.TmdbApi
+import com.katdmy.android.myfirstkotlinapp.room.MoviesDao
+import com.katdmy.android.myfirstkotlinapp.viewmodel.MovieDetailsState
+import com.katdmy.android.myfirstkotlinapp.viewmodel.MovieListState
+import kotlinx.coroutines.Dispatchers
 
-class MoviesRepository(private val tmdbApi: TmdbApi) {
+class MoviesRepository(
+    private val tmdbApi: TmdbApi,
+    private val moviesDao: MoviesDao,
+    private val modelsMapper: ModelsMapper
+) {
 
-    suspend fun getPopularMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getPopularMovies())
+    fun loadMovies(
+        mode: String,
+        searchString: String
+    ): LiveData<MovieListState> = liveData(Dispatchers.IO) {
+        emit(MovieListState.Loading)
 
-    suspend fun getNowPlayingMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getNowPlayingMovies())
+        val cachedData = moviesDao.getAllMovies().map { modelsMapper.movieFromRoomToModel(it) }
+        if (cachedData.isNotEmpty())
+            emit(MovieListState.Data(cachedData))
 
-    suspend fun getTopRatedMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getTopRatedMovies())
-
-    suspend fun getUpcomingMovies(): List<Movie> =
-        processMoviesList(tmdbApi.getUpcomingMovies())
-
-    suspend fun searchMovies(query: String): List<Movie> =
-        processMoviesList(tmdbApi.searchMovies(query))
-
-    suspend fun getMovieDetails(oldData: Movie): Movie {
-        val conf = tmdbApi.getConfiguration()
-        val jsonActors = tmdbApi.getMovieActors(oldData.id).cast ?: emptyList()
-        val actors = jsonActors.map { jsonActor ->
-            @Suppress("unused")
-            Actor(
-                id = jsonActor.id ?: 0,
-                name = jsonActor.name ?: "",
-                picture = conf.images?.secureBaseUrl + conf.images?.profileSizes?.get(1) + jsonActor.profilePath
-            )
+        val movies = when (mode) {
+            "Popular" -> processMoviesList(tmdbApi.getPopularMovies())
+            "Now playing" -> processMoviesList(tmdbApi.getNowPlayingMovies())
+            "Top rated" -> processMoviesList(tmdbApi.getTopRatedMovies())
+            "Upcoming" -> processMoviesList(tmdbApi.getUpcomingMovies())
+            "Search" -> processMoviesList(tmdbApi.searchMovies(searchString))
+            else -> emptyList()
         }
-        return Movie(
-            oldData.id,
-            oldData.title,
-            oldData.overview,
-            oldData.poster,
-            oldData.backdrop,
-            oldData.ratings,
-            oldData.numberOfRatings,
-            oldData.minimumAge,
-            oldData.runtime,
-            oldData.genres,
-            actors
+        moviesDao.replaceMovies(
+            modelsMapper.moviesFromModelToRoom(movies)
         )
+
+        if (movies.isNotEmpty())
+            emit(MovieListState.Data(movies))
+        else
+            emit(MovieListState.Empty)
+    }
+
+    fun getMovieDetails(movie: Movie): LiveData<MovieDetailsState> = liveData(Dispatchers.IO) {
+        emit(MovieDetailsState.LoadingActors(movie))
+
+        val cachedData =
+            moviesDao.getAllActors(movie.id).map { modelsMapper.actorFromRoomToModel(it) }
+        if (cachedData.isNotEmpty())
+            emit(MovieDetailsState.Data(movie, cachedData))
+
+        val actors = getActors(movie.id)
+        moviesDao.replaceActors(
+            modelsMapper.actorsFromModelToRoom(actors, movie.id)
+        )
+
+        if (actors.isNotEmpty())
+            emit(MovieDetailsState.Data(movie, actors))
+        else
+            emit(MovieDetailsState.EmptyActors(movie))
     }
 
     private suspend fun processMoviesList(jsonMovies: MoviesJsonList): List<Movie> {
@@ -70,6 +83,19 @@ class MoviesRepository(private val tmdbApi: TmdbApi) {
                     genresMap[it] ?: throw IllegalArgumentException("Genre not found")
                 } ?: emptyList(),
                 actors = emptyList()
+            )
+        }
+    }
+
+    private suspend fun getActors(movieId: Int): List<Actor> {
+        val conf = tmdbApi.getConfiguration()
+        val jsonActors = tmdbApi.getMovieActors(movieId).cast ?: emptyList()
+        return jsonActors.subList(0, 10).map { jsonActor ->
+            @Suppress("unused")
+            Actor(
+                id = jsonActor.id ?: 0,
+                name = jsonActor.name ?: "",
+                picture = conf.images?.secureBaseUrl + conf.images?.profileSizes?.get(1) + jsonActor.profilePath
             )
         }
     }

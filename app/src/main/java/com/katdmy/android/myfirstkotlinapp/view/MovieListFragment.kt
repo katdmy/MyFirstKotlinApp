@@ -11,14 +11,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
+import com.katdmy.android.myfirstkotlinapp.MovieApplication
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
 import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
 import com.katdmy.android.myfirstkotlinapp.model.Movie
+import com.katdmy.android.myfirstkotlinapp.viewmodel.MovieListState
 
 class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private val viewModel: MoviesViewModel by activityViewModels { ViewModelFactory(requireActivity()) }
+
+    private var queryString: String = ""
 
     private var searchTi: TextInputLayout? = null
     private var loadingSpinner: ProgressBar? = null
@@ -34,9 +38,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         setUpAdapter()
         setUpClickListener()
 
-        if (viewModel.isEmptyInstanceState()) {
-            viewModel.onPopularMoviesListRequested()
-        } else {
+        if (viewModel.isNotEmptyInstanceState()) {
             searchTi?.editText?.setText(viewModel.getStringStateParam("STATE_SEARCH"))
 
             val tabIndex = viewModel.getIntStateParam("STATE_TAB")
@@ -44,8 +46,9 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
             tab?.select()
 
             adapter?.setData(viewModel.getListStateParam("STATE_MOVIES"))
+        } else {
+            viewModel.moviesData.observe(viewLifecycleOwner, this::updateAdapter)
         }
-        viewModel.getMoviesData().observe(viewLifecycleOwner, this::updateAdapter)
     }
 
     override fun onDestroyView() {
@@ -79,52 +82,42 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private fun setUpClickListener() {
         searchTi?.setEndIconOnClickListener {
-            val queryString = searchTi?.editText?.text.toString()
+            queryString = searchTi?.editText?.text.toString()
             if (queryString.isNotEmpty()) {
-                viewModel.onSearchMoviesRequested(queryString)
-                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+                viewModel.onMoviesListRequested("Search", queryString)
+                viewModel.moviesData.observe(viewLifecycleOwner, ::updateAdapter)
             }
         }
         movieClickListener = context as? MovieFragmentClickListener
         tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.text) {
-                    getString(R.string.tab_label_popular) -> viewModel.onPopularMoviesListRequested()
-                    getString(R.string.tab_label_now_playing) -> viewModel.onNowPlayingMoviesListRequested()
-                    getString(R.string.tab_label_top_rated) -> viewModel.onTopRatedMoviesListRequested()
-                    getString(R.string.tab_label_upcoming) -> viewModel.onUpcomingMoviesListRequested()
-                    else -> return
-                }
-                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+                queryString = ""
+                viewModel.onMoviesListRequested(tab?.text.toString(), queryString)
+                viewModel.moviesData.observe(viewLifecycleOwner, ::updateAdapter)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                when (tab?.text) {
-                    getString(R.string.tab_label_popular) -> viewModel.onPopularMoviesListRequested()
-                    getString(R.string.tab_label_now_playing) -> viewModel.onNowPlayingMoviesListRequested()
-                    getString(R.string.tab_label_top_rated) -> viewModel.onTopRatedMoviesListRequested()
-                    getString(R.string.tab_label_upcoming) -> viewModel.onUpcomingMoviesListRequested()
-                    else -> return
-                }
-                viewModel.getMoviesData().observe(viewLifecycleOwner, ::updateAdapter)
+                val mode = if (queryString.isEmpty()) tab?.text.toString() else "Search"
+                viewModel.onMoviesListRequested(mode, queryString)
+                viewModel.moviesData.observe(viewLifecycleOwner, ::updateAdapter)
             }
         })
     }
 
-    private fun updateAdapter(moviesData: MoviesViewModel.MovieListState) {
+    private fun updateAdapter(moviesData: MovieListState) {
         when (moviesData) {
-            is MoviesViewModel.MovieListState.Data -> {
+            is MovieListState.Data -> {
                 adapter?.setData(moviesData.movies)
                 loadingSpinner?.visibility = View.GONE
                 emptyDataTv?.visibility = View.GONE
             }
-            MoviesViewModel.MovieListState.Loading -> {
+            MovieListState.Loading -> {
                 adapter?.setData(emptyList())
                 loadingSpinner?.visibility = View.VISIBLE
                 emptyDataTv?.visibility = View.GONE
             }
-            MoviesViewModel.MovieListState.Empty -> {
+            MovieListState.Empty -> {
                 adapter?.setData(emptyList())
                 loadingSpinner?.visibility = View.GONE
                 emptyDataTv?.visibility = View.VISIBLE
@@ -134,7 +127,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     //creating method to make it look simpler
     private fun movieClickListener(movie: Movie) {
-        viewModel.onMovieSelected(movie)
+        viewModel.selectedMovie = movie
         movieClickListener?.showDetailView()
     }
 

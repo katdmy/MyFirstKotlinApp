@@ -1,19 +1,17 @@
-package com.katdmy.android.myfirstkotlinapp.view
+package com.katdmy.android.myfirstkotlinapp.repository
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.model.Movie
+import com.katdmy.android.myfirstkotlinapp.view.MoviesViewHolder
 
-class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MoviesViewHolder>() {
+class MoviesPagedAdapter(private val movieOnClickListener: (Movie) -> Unit) : PagedListAdapter<Movie, MoviesViewHolder>(DIFF_CALLBACK) {
+
     private var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -31,10 +29,18 @@ class MoviesAdapter(private val movieOnClickListener: (Movie) -> Unit) :
         return movies.size
     }
 
-    fun setData(newMovies: List<Movie>) {
-        movies = newMovies
-        notifyDataSetChanged()
+    fun setList(list: PagedList<Movie>?) {
+        submitList(list)
     }
 
-    fun getData() = movies
+}
+
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem.equals(newItem)
+    }
 }

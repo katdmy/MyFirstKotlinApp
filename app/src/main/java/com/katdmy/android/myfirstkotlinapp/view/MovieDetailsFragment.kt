@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.katdmy.android.myfirstkotlinapp.MovieApplication
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.model.Movie
+import com.katdmy.android.myfirstkotlinapp.viewmodel.MovieDetailsState
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
 import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
 
@@ -42,7 +44,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         setUpAdapter()
         setUpClickListener()
 
-        viewModel.selectedMovie.observe(viewLifecycleOwner, this::onMovieDetailsStateChange)
+        viewModel.onMovieSelected().observe(viewLifecycleOwner, this::onMovieDetailsStateChange)
     }
 
     override fun onDestroyView() {
@@ -91,18 +93,28 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         backButton?.setOnClickListener { backListener?.detailsBack() }
     }
 
-    private fun onMovieDetailsStateChange(movieDetails: MoviesViewModel.MovieDetailsState) {
+    private fun onMovieDetailsStateChange(movieDetails: MovieDetailsState) {
         when (movieDetails) {
-            is MoviesViewModel.MovieDetailsState.Data -> {
+            is MovieDetailsState.Data -> {
                 scrollView?.visibility = View.VISIBLE
                 loadingSpinner?.visibility = View.GONE
                 emptyDataTv?.visibility = View.GONE
+                adapter?.setData(movieDetails.actors)
                 fillMovieDetails(movieDetails.movie)
             }
-            MoviesViewModel.MovieDetailsState.Loading -> {
+            is MovieDetailsState.LoadingActors -> {
                 scrollView?.visibility = View.GONE
                 loadingSpinner?.visibility = View.VISIBLE
                 emptyDataTv?.visibility = View.GONE
+                adapter?.setData(emptyList())
+                fillMovieDetails(movieDetails.movie)
+            }
+            is MovieDetailsState.EmptyActors -> {
+                scrollView?.visibility = View.GONE
+                loadingSpinner?.visibility = View.GONE
+                emptyDataTv?.visibility = View.VISIBLE
+                adapter?.setData(emptyList())
+                fillMovieDetails(movieDetails.movie)
             }
         }
     }
@@ -123,8 +135,6 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         ratingBar?.rating = movie.ratings.div(2)
         reviewsTextView?.text = "${movie.numberOfRatings} reviews"
         overviewTextView?.text = movie.overview
-
-        adapter?.setData(movie.actors)
     }
 
     interface BackClickListener {
