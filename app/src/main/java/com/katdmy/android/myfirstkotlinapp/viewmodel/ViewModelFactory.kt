@@ -1,5 +1,7 @@
 package com.katdmy.android.myfirstkotlinapp.viewmodel
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
@@ -19,10 +21,17 @@ class ViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T = when (modelClass) {
-        MoviesViewModel::class.java -> MoviesViewModel(
-            handle,
-            MoviesRepository(tmdbApi, (activity.application as MovieApplication).db.moviesDao, ModelsMapper())
-        )
+        MoviesViewModel::class.java -> {
+            MoviesViewModel(
+                handle,
+                MoviesRepository(
+                    tmdbApi,
+                    (activity.application as MovieApplication).db.moviesDao,
+                    ModelsMapper()
+                ),
+                activity.application.getSharedPreferences("prefs_file", Context.MODE_PRIVATE)
+            )
+        }
         else -> throw IllegalArgumentException("$modelClass is not registered ViewModel")
     } as T
 }
