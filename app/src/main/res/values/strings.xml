@@ -23,5 +23,15 @@
     <string name="tab_label_upcoming">Upcoming</string>
     <string name="search_movies">Search movies</string>
     <string name="no_data_loaded">No data loaded</string>
+    <string name="channel_new_messages">New movie suggestions</string>
+    <string name="channel_new_messages_description">All new movies suggestions.</string>
+    <string name="notification_title">Top movie for a weekend</string>
+
+    <string name="permission_dialog_explanation_text">To continue please grant access to write calendar events</string>
+    <string name="permission_dialog_denied_text">This feature is not available without write to calendar permissions. Open app settings?</string>
+    <string name="permission_not_granted_text">Calendar write permission not granted</string>
+    <string name="dialog_positive_button">OK</string>
+    <string name="dialog_negative_button">Cancel</string>
+    <string name="schedule_btn">Schedule</string>
 
 </resources>

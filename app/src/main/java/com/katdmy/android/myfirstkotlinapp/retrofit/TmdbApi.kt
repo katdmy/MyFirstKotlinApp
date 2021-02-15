@@ -14,9 +14,6 @@ interface TmdbApi {
     @GET("movie/popular?language=en-US&page=1")
     suspend fun getPopularMovies(): MoviesJsonList
 
-    @GET("movie/popular?language=en-US&page=1")
-    fun getPagedPopularMovies(@Query("page") page: Int,): Deferred<MoviesJsonList>
-
     @GET("movie/now_playing?language=en-US&page=1")
     suspend fun getNowPlayingMovies(): MoviesJsonList
 
