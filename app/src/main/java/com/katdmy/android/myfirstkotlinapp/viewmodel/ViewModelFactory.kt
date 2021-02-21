@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.katdmy.android.myfirstkotlinapp.MovieApplication
+import com.katdmy.android.myfirstkotlinapp.Notifications
 import com.katdmy.android.myfirstkotlinapp.model.ModelsMapper
 import com.katdmy.android.myfirstkotlinapp.repository.MoviesRepository
 import com.katdmy.android.myfirstkotlinapp.retrofit.RetrofitClient.tmdbApi
@@ -27,7 +28,8 @@ class ViewModelFactory(
                 MoviesRepository(
                     tmdbApi,
                     (activity.application as MovieApplication).db.moviesDao,
-                    ModelsMapper()
+                    ModelsMapper(),
+                    Notifications(activity)
                 ),
                 activity.application.getSharedPreferences("prefs_file", Context.MODE_PRIVATE)
             )

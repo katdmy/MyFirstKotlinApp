@@ -35,6 +35,8 @@ class MoviesViewModel(
 
     fun onMovieSelected() = repo.getMovieDetails(selectedMovie)
 
+    fun getMovieById(movieId: Int) = repo.getMovieById(movieId)
+
     fun isNotEmptyInstanceState() = handle.contains("STATE_MOVIES")
     fun getIntStateParam(key: String): Int = handle.get(key) ?: 0
     fun getStringStateParam(key: String): String = handle.get(key) ?: ""
