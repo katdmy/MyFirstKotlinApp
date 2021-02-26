@@ -6,6 +6,8 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -17,14 +19,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.SharedElementCallback
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.google.android.material.transition.MaterialContainerTransform
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.model.Movie
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MovieDetailsState
@@ -62,18 +71,37 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     private var currentMovie: Movie? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+        }
+        /*val transition = TransitionInflater.from(context).inflateTransition(R.transition.shared_element_transition)
+        sharedElementEnterTransition = transition*/
+    }
+
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+
         initViews(view)
         setUpAdapter()
         setUpClickListener()
 
         val movieId = arguments?.getInt(MOVIE_ID, 0) ?: 0
         if (movieId > 0)
-                viewModel.getMovieById(movieId).observe(viewLifecycleOwner, this::onMovieDetailsStateChange)
-            else
-                viewModel.onMovieSelected().observe(viewLifecycleOwner, this::onMovieDetailsStateChange)
+            viewModel.getMovieById(movieId).observe(
+                viewLifecycleOwner,
+                this::onMovieDetailsStateChange
+            )
+        else
+            viewModel.onMovieSelected().observe(
+                viewLifecycleOwner,
+                this::onMovieDetailsStateChange
+            )
 
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -196,7 +224,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         val timePickerDialog = TimePickerDialog(
             requireContext(),
             { _, p1, p2 ->
-                val timePicked = (p1*60 + p2) * 60 * 1000L
+                val timePicked = (p1 * 60 + p2) * 60 * 1000L
                 createCalendarEvent(datePicked + timePicked)
             },
             hour,
@@ -208,16 +236,22 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
     }
 
     private fun createCalendarEvent(startMillis: Long) {
-        val runtime = currentMovie?.runtime?.times(60*1000)?.toLong()
-        val endMillis = runtime?.plus(startMillis) ?: startMillis.plus(2*60*1000)
+        val runtime = currentMovie?.runtime?.times(60 * 1000)?.toLong()
+        val endMillis = runtime?.plus(startMillis) ?: startMillis.plus(2 * 60 * 1000)
         val scheduleIntent = Intent(Intent.ACTION_INSERT)
             .setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
             .putExtra(CalendarContract.Events.TITLE, "Movie evening with ${currentMovie?.title}")
-            .putExtra(CalendarContract.Events.DESCRIPTION, "You want to watch this movie on a weekend: ${currentMovie?.title} with rating ${currentMovie?.ratings}.")
+            .putExtra(
+                CalendarContract.Events.DESCRIPTION,
+                "You want to watch this movie on a weekend: ${currentMovie?.title} with rating ${currentMovie?.ratings}."
+            )
             .putExtra(CalendarContract.Events.EVENT_LOCATION, "Cinema")
-            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            .putExtra(
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.AVAILABILITY_BUSY
+            )
         startActivity(scheduleIntent)
     }
 
@@ -285,6 +319,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
                 emptyActorsTv?.visibility = View.GONE
                 adapter?.setData(movieDetails.actors)
                 fillMovieDetails(movieDetails.movie)
+                startPostponedEnterTransition()
             }
             is MovieDetailsState.LoadingActors -> {
                 constraintLayout?.visibility = View.VISIBLE
@@ -305,6 +340,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
                 emptyActorsTv?.visibility = View.VISIBLE
                 adapter?.setData(emptyList())
                 fillMovieDetails(movieDetails.movie)
+                startPostponedEnterTransition()
             }
         }
     }
