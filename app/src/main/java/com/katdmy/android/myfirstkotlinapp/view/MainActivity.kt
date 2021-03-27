@@ -3,6 +3,7 @@ package com.katdmy.android.myfirstkotlinapp.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.work.WorkManager
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.worker.WorkRepository
@@ -39,15 +40,16 @@ class MainActivity : AppCompatActivity(), MovieListFragment.MovieFragmentClickLi
         WorkManager.getInstance(application).enqueue(workRepository.periodDbUpdate)
     }
 
-    override fun showDetailView() {
+    override fun showDetailView(sharedView: View) {
         supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .addSharedElement(sharedView, getString(R.string.details_shared_container))
             .replace(R.id.frame_layout, movieDetails)
+            .addToBackStack(null)
             .commit()
     }
 
     override fun detailsBack() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, movieList)
-            .commit()
+        supportFragmentManager.popBackStack()
     }
 }

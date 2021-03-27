@@ -24,7 +24,6 @@ class Notifications (private val context: Context) {
         private const val CHAT_TAG = "chat"
     }
 
-    private val TAG = Notifications::class.java.simpleName
     private val notificationManagerCompat: NotificationManagerCompat =
         NotificationManagerCompat.from(context)
 
@@ -42,8 +41,6 @@ class Notifications (private val context: Context) {
     }
 
     fun showNotification(movie: Movie) {
-        Log.e(TAG, "Trying to show notification: $movie")
-
         val contentUri = "com.katdmy.android.myfirstkotlinapp://movie/id/${movie.id}".toUri()
 
         val builder = NotificationCompat.Builder(context, CHANNEL_NEW_MESSAGES)
@@ -73,7 +70,6 @@ class Notifications (private val context: Context) {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    TODO("Not yet implemented")
                 }
             })
     }

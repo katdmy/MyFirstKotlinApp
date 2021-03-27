@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
-import com.katdmy.android.myfirstkotlinapp.MovieApplication
+import com.google.android.material.transition.MaterialElevationScale
 import com.katdmy.android.myfirstkotlinapp.R
 import com.katdmy.android.myfirstkotlinapp.viewmodel.MoviesViewModel
 import com.katdmy.android.myfirstkotlinapp.viewmodel.ViewModelFactory
@@ -34,11 +33,15 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         initViews(view)
         setUpAdapter()
         setUpClickListener()
 
         if (viewModel.isNotEmptyInstanceState()) {
+            postponeEnterTransition()
+
             searchTi?.editText?.setText(viewModel.getStringStateParam("STATE_SEARCH"))
 
             val tabIndex = viewModel.getIntStateParam("STATE_TAB")
@@ -66,6 +69,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
         super.onDestroyView()
     }
 
+
     private fun initViews(view: View) {
         searchTi = view.findViewById(R.id.search_et)
         loadingSpinner = view.findViewById(R.id.loading_spinner)
@@ -76,7 +80,12 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private fun setUpAdapter() {
         recycler?.layoutManager = GridLayoutManager(activity, 2)
-        adapter = MoviesAdapter { movie: Movie -> movieClickListener(movie) }
+        adapter = MoviesAdapter { sharedView: View, movie: Movie ->
+            movieClickListener(
+                sharedView,
+                movie
+            )
+        }
         recycler?.adapter = adapter
     }
 
@@ -111,6 +120,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
                 adapter?.setData(moviesData.movies)
                 loadingSpinner?.visibility = View.GONE
                 emptyDataTv?.visibility = View.GONE
+                startPostponedEnterTransition()
             }
             MovieListState.Loading -> {
                 adapter?.setData(emptyList())
@@ -126,12 +136,20 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
     }
 
     //creating method to make it look simpler
-    private fun movieClickListener(movie: Movie) {
+    private fun movieClickListener(sharedView: View, movie: Movie) {
         viewModel.selectedMovie = movie
-        movieClickListener?.showDetailView()
+        exitTransition = MaterialElevationScale(false).apply {
+            excludeTarget(sharedView, true)
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            excludeTarget(sharedView, true)
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+        movieClickListener?.showDetailView(sharedView)
     }
 
     interface MovieFragmentClickListener {
-        fun showDetailView()
+        fun showDetailView(sharedView: View)
     }
 }

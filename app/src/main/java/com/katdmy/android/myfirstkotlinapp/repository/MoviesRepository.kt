@@ -51,9 +51,7 @@ class MoviesRepository(
             emit(MovieListState.Empty)
 
         val topRatedMovie = movies.maxByOrNull { it.ratings }
-        Log.e(TAG, "Notification: got movie with the highest rating: $topRatedMovie")
         topRatedMovie?.let {
-            Log.e(TAG, "Trying to show notification: $topRatedMovie")
             notifications.showNotification(it)
         }
 
